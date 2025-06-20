@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -84,52 +83,74 @@
       padding: 0.3rem 0.6rem;
       font-size: 0.85rem;
     }
+    .history {
+      background: #fff;
+      border: 1px solid #ccc;
+      padding: 0.5rem;
+      margin-top: 1rem;
+      border-radius: 6px;
+    }
+    .history h3 {
+      margin-top: 0;
+    }
+    .history ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    .history li {
+      margin: 0.25rem 0;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
-  <button class="toggleTheme" title="Toggle Dark Mode" onclick="document.body.classList.toggle('dark')">🌙</button>
-
+  <button class="toggleTheme" title="Toggle Dark Mode" onclick="document.body.classList.toggle('dark')">
+    🌙
+  </button>
   <div class="container">
     <h1>ArtVandalAI</h1>
-    <p>Creative Chaos, Crafted by AI</p>
+    <p>Creative Chaos, Crafted by AI</p><label>Prompt:</label>
+<textarea id="promptInput" placeholder="e.g., A futuristic city in sunset lighting"></textarea>
 
-    <label>Prompt:</label>
-    <textarea id="promptInput" placeholder="e.g., A futuristic city in sunset lighting"></textarea>
+<label>Negative Prompt (optional):</label>
+<textarea id="negativePromptInput" placeholder="e.g., blur, dark, low quality"></textarea>
 
-    <label>Negative Prompt (optional):</label>
-    <textarea id="negativePromptInput" placeholder="e.g., blur, dark, low quality"></textarea>
+<label>Number of Images:</label>
+<select id="imageCount">
+  <option value="1">1</option>
+  <option value="2" selected>2</option>
+  <option value="3">3</option>
+  <option value="4">4</option>
+  <option value="5">5</option>
+  <option value="6">6</option>
+</select>
 
-    <label>Number of Images:</label>
-    <select id="imageCount">
-      <option value="1">1</option>
-      <option value="2" selected>2</option>
-      <option value="3">3</option>
-      <option value="4">4</option>
-      <option value="5">5</option>
-      <option value="6">6</option>
-    </select>
+<label>Style:</label>
+<select id="styleSelect">
+  <option value="">-- optional --</option>
+  <option value="anime">Anime</option>
+  <option value="photorealistic">Photorealistic</option>
+  <option value="watercolor painting">Watercolor Painting</option>
+  <option value="cyberpunk">Cyberpunk</option>
+</select>
 
-    <label>Style:</label>
-    <select id="styleSelect">
-      <option value="">-- optional --</option>
-      <option value="anime">Anime</option>
-      <option value="photorealistic">Photorealistic</option>
-      <option value="watercolor painting">Watercolor Painting</option>
-      <option value="cyberpunk">Cyberpunk</option>
-    </select>
+<label>Aspect Ratio:</label>
+<select id="sizeSelect">
+  <option value="1:1">Square (1:1)</option>
+  <option value="4:5">Portrait (4:5)</option>
+  <option value="16:9">Landscape (16:9)</option>
+</select>
 
-    <label>Aspect Ratio:</label>
-    <select id="sizeSelect">
-      <option value="1:1">Square (1:1)</option>
-      <option value="4:5">Portrait (4:5)</option>
-      <option value="16:9">Landscape (16:9)</option>
-    </select>
+<button id="generateBtn">Generate</button>
+<div id="imagesContainer"></div>
 
-    <button id="generateBtn">Generate</button>
-    <div id="imagesContainer"></div>
-  </div>
+<div class="history">
+  <h3>Prompt History</h3>
+  <ul id="promptHistory"></ul>
+  <button onclick="clearPromptHistory()">Clear History</button>
+</div>
 
-  <script>
+  </div>  <script>
     const promptInput = document.getElementById('promptInput');
     const negativePromptInput = document.getElementById('negativePromptInput');
     const imageCountSelect = document.getElementById('imageCount');
@@ -137,18 +158,16 @@
     const sizeSelect = document.getElementById('sizeSelect');
     const generateBtn = document.getElementById('generateBtn');
     const imagesContainer = document.getElementById('imagesContainer');
+    const promptHistory = document.getElementById('promptHistory');
 
-    const statusMessages = [
-      "Brewing...", "Crafting...", "Imagining...", "Rendering...",
-      "Composing...", "Processing...", "Dreaming up visuals...", "Picturing perfection..."
-    ];
+    const statusMessages = ["Brewing...", "Crafting...", "Imagining...", "Rendering...", "Composing...", "Processing...", "Dreaming up visuals...", "Picturing perfection..."];
 
-    function getRandomMessage(prev = "") {
-      let msg;
+    function getRandomMessage(prevMsg) {
+      let newMsg;
       do {
-        msg = statusMessages[Math.floor(Math.random() * statusMessages.length)];
-      } while (msg === prev);
-      return msg;
+        newMsg = statusMessages[Math.floor(Math.random() * statusMessages.length)];
+      } while (newMsg === prevMsg);
+      return newMsg;
     }
 
     function buildPrompt() {
@@ -182,10 +201,39 @@
       imagesContainer.className = '';
     }
 
+    function addPromptToHistory(prompt) {
+      let history = JSON.parse(localStorage.getItem('promptHistory') || '[]');
+      if (!history.includes(prompt)) {
+        history.unshift(prompt);
+        localStorage.setItem('promptHistory', JSON.stringify(history.slice(0, 10)));
+        renderPromptHistory();
+      }
+    }
+
+    function renderPromptHistory() {
+      let history = JSON.parse(localStorage.getItem('promptHistory') || '[]');
+      promptHistory.innerHTML = '';
+      history.forEach(p => {
+        const li = document.createElement('li');
+        li.textContent = p;
+        li.onclick = () => {
+          promptInput.value = p;
+        };
+        promptHistory.appendChild(li);
+      });
+    }
+
+    function clearPromptHistory() {
+      localStorage.removeItem('promptHistory');
+      renderPromptHistory();
+    }
+
     async function generateImages() {
       const count = parseInt(imageCountSelect.value);
       const basePrompt = buildPrompt();
       if (!basePrompt) return alert('Please enter a prompt');
+
+      addPromptToHistory(basePrompt);
 
       clearImages();
       generateBtn.disabled = true;
@@ -199,23 +247,24 @@
 
         const statusText = document.createElement('div');
         statusText.className = 'statusText';
-        const initialMsg = getRandomMessage();
-        statusText.textContent = initialMsg;
+        const initMsg = getRandomMessage();
+        statusText.textContent = initMsg;
 
         card.appendChild(statusText);
         imagesContainer.appendChild(card);
 
-        cardRefs.push({ card, statusText, prevMsg: initialMsg });
+        cardRefs.push({ card, statusText, interval: null, prevMsg: initMsg });
       }
 
       for (let i = 0; i < count; i++) {
         const { card, statusText } = cardRefs[i];
-        let prev = cardRefs[i].prevMsg;
+        let prevMsg = cardRefs[i].prevMsg;
         const interval = setInterval(() => {
-          const msg = getRandomMessage(prev);
+          const msg = getRandomMessage(prevMsg);
           statusText.textContent = msg;
-          prev = msg;
+          prevMsg = msg;
         }, 1200);
+        cardRefs[i].interval = interval;
 
         const uniquePrompt = `${basePrompt}, unique ${Math.random().toString(36).substring(7)}`;
         const url = generateImageURL(uniquePrompt, sizeSelect.value);
@@ -247,13 +296,14 @@
         };
 
         img.src = url;
-        await new Promise(r => setTimeout(r, 350)); // prevent overload
+
+        await new Promise(r => setTimeout(r, 350));
       }
 
       generateBtn.disabled = false;
     }
 
     generateBtn.addEventListener('click', generateImages);
-  </script>
-</body>
+    renderPromptHistory();
+  </script></body>
 </html>
