@@ -333,29 +333,28 @@
     startStatusRotation();
     generateBtn.disabled = true;
 
+    // Let browser paint status message before heavy processing
+    await new Promise(res => setTimeout(res, 100));
+
     imagesContainer.classList.add(`grid-${count}`);
 
     for (let i = 0; i < count; i++) {
       const url = generateImageURL(basePrompt, sizeSelect.value);
 
-      // Create image card
       const card = document.createElement('div');
       card.className = 'imageCard';
 
       const img = document.createElement('img');
       img.alt = `Generated image ${i + 1} for prompt: ${basePrompt}`;
-      img.src = url + `?${Date.now()}_${i}`; // prevent caching
+      img.src = url + `?cb=${Date.now()}_${i}`; // Unique cache-buster per image
 
-      // Actions container
       const actions = document.createElement('div');
       actions.className = 'imageActions';
 
-      // Download button
       const dlBtn = document.createElement('button');
       dlBtn.textContent = 'Download';
       dlBtn.addEventListener('click', () => downloadImage(img.src, i));
 
-      // Copy prompt button
       const cpBtn = document.createElement('button');
       cpBtn.textContent = 'Copy Prompt';
       cpBtn.title = basePrompt;
@@ -368,7 +367,7 @@
       card.appendChild(actions);
       imagesContainer.appendChild(card);
 
-      // Slight delay to stagger image requests to avoid possible rate limits
+      // Slight delay to stagger requests
       await new Promise(res => setTimeout(res, 500));
     }
 
