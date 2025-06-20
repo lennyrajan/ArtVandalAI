@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -70,6 +69,7 @@
       object-fit: cover;
       display: block;
       border-radius: 6px;
+      cursor: pointer;
     }
     .statusText {
       font-style: italic;
@@ -84,52 +84,102 @@
       padding: 0.3rem 0.6rem;
       font-size: 0.85rem;
     }
+    .popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+    .popup img {
+      max-width: 90vw;
+      max-height: 90vh;
+      border-radius: 8px;
+    }
+    .popup .closeBtn {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: red;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 2rem;
+      height: 2rem;
+      font-size: 1rem;
+      line-height: 1.9rem;
+      text-align: center;
+      cursor: pointer;
+    }
+    #promptHistory {
+      margin-top: 2rem;
+      padding: 1rem;
+      background: #eee;
+      border-radius: 6px;
+    }
+    #promptHistory.dark {
+      background: #222;
+    }
+    footer {
+      margin-top: 3rem;
+      text-align: center;
+      font-size: 0.9rem;
+      opacity: 0.6;
+    }
   </style>
 </head>
 <body>
-  <button class="toggleTheme" title="Toggle Dark Mode" onclick="document.body.classList.toggle('dark')">🌙</button>
-
-  <div class="container">
+  <button class="toggleTheme" title="Toggle Dark Mode" onclick="document.body.classList.toggle('dark')">🌙</button>  <div class="container">
     <h1>ArtVandalAI</h1>
-    <p>Creative Chaos, Crafted by AI</p>
+    <p>Creative Chaos, Crafted by AI</p><label>Prompt:</label>
+<textarea id="promptInput" placeholder="e.g., A futuristic city in sunset lighting"></textarea>
 
-    <label>Prompt:</label>
-    <textarea id="promptInput" placeholder="e.g., A futuristic city in sunset lighting"></textarea>
+<label>Negative Prompt (optional):</label>
+<textarea id="negativePromptInput" placeholder="e.g., blur, dark, low quality"></textarea>
 
-    <label>Negative Prompt (optional):</label>
-    <textarea id="negativePromptInput" placeholder="e.g., blur, dark, low quality"></textarea>
+<label>Number of Images:</label>
+<select id="imageCount">
+  <option value="1">1</option>
+  <option value="2" selected>2</option>
+  <option value="3">3</option>
+  <option value="4">4</option>
+  <option value="5">5</option>
+  <option value="6">6</option>
+</select>
 
-    <label>Number of Images:</label>
-    <select id="imageCount">
-      <option value="1">1</option>
-      <option value="2" selected>2</option>
-      <option value="3">3</option>
-      <option value="4">4</option>
-      <option value="5">5</option>
-      <option value="6">6</option>
-    </select>
+<label>Style:</label>
+<select id="styleSelect">
+  <option value="">-- optional --</option>
+  <option value="anime">Anime</option>
+  <option value="photorealistic">Photorealistic</option>
+  <option value="watercolor painting">Watercolor Painting</option>
+  <option value="cyberpunk">Cyberpunk</option>
+</select>
 
-    <label>Style:</label>
-    <select id="styleSelect">
-      <option value="">-- optional --</option>
-      <option value="anime">Anime</option>
-      <option value="photorealistic">Photorealistic</option>
-      <option value="watercolor painting">Watercolor Painting</option>
-      <option value="cyberpunk">Cyberpunk</option>
-    </select>
+<label>Aspect Ratio:</label>
+<select id="sizeSelect">
+  <option value="1:1">Square (1:1)</option>
+  <option value="4:5">Portrait (4:5)</option>
+  <option value="16:9">Landscape (16:9)</option>
+</select>
 
-    <label>Aspect Ratio:</label>
-    <select id="sizeSelect">
-      <option value="1:1">Square (1:1)</option>
-      <option value="4:5">Portrait (4:5)</option>
-      <option value="16:9">Landscape (16:9)</option>
-    </select>
+<button id="generateBtn">Generate</button>
+<div id="imagesContainer"></div>
 
-    <button id="generateBtn">Generate</button>
-    <div id="imagesContainer"></div>
-  </div>
+<div id="promptHistory">
+  <h3>Prompt History</h3>
+  <ul id="historyList"></ul>
+  <button onclick="clearHistory()">Clear History</button>
+</div>
 
-  <script>
+  </div>  <footer>
+    Made with ☕ by Lenny Rajan
+  </footer>  <script>
     const promptInput = document.getElementById('promptInput');
     const negativePromptInput = document.getElementById('negativePromptInput');
     const imageCountSelect = document.getElementById('imageCount');
@@ -137,6 +187,7 @@
     const sizeSelect = document.getElementById('sizeSelect');
     const generateBtn = document.getElementById('generateBtn');
     const imagesContainer = document.getElementById('imagesContainer');
+    const historyList = document.getElementById('historyList');
 
     const statusMessages = [
       "Brewing...", "Crafting...", "Imagining...", "Rendering...",
@@ -182,12 +233,36 @@
       imagesContainer.className = '';
     }
 
+    function showPopup(src) {
+      const popup = document.createElement('div');
+      popup.className = 'popup';
+      const img = document.createElement('img');
+      img.src = src;
+      const btn = document.createElement('button');
+      btn.textContent = '✕';
+      btn.className = 'closeBtn';
+      btn.onclick = () => popup.remove();
+      popup.append(img, btn);
+      document.body.appendChild(popup);
+    }
+
+    function addToHistory(prompt) {
+      const li = document.createElement('li');
+      li.textContent = prompt;
+      historyList.prepend(li);
+    }
+
+    function clearHistory() {
+      historyList.innerHTML = '';
+    }
+
     async function generateImages() {
       const count = parseInt(imageCountSelect.value);
       const basePrompt = buildPrompt();
       if (!basePrompt) return alert('Please enter a prompt');
 
       clearImages();
+      addToHistory(basePrompt);
       generateBtn.disabled = true;
       imagesContainer.classList.add(`grid-${count}`);
 
@@ -226,6 +301,7 @@
           clearInterval(interval);
           card.innerHTML = '';
           card.appendChild(img);
+          img.onclick = () => showPopup(img.src);
 
           const actions = document.createElement('div');
           actions.className = 'imageActions';
@@ -247,13 +323,12 @@
         };
 
         img.src = url;
-        await new Promise(r => setTimeout(r, 350)); // prevent overload
+        await new Promise(r => setTimeout(r, 350));
       }
 
       generateBtn.disabled = false;
     }
 
     generateBtn.addEventListener('click', generateImages);
-  </script>
-</body>
+  </script></body>
 </html>
