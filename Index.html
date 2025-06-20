@@ -22,7 +22,8 @@
       background: none;
       border: none;
       font-size: 1.5rem;
-      padding: 0.25rem;
+      line-height: 1;
+      padding: 0.2rem;
       cursor: pointer;
       color: inherit;
       z-index: 1000;
@@ -119,11 +120,26 @@
       text-align: center;
       cursor: pointer;
     }
+    #promptHistory {
+      margin-top: 2rem;
+      padding: 1rem;
+      background: #eee;
+      border-radius: 6px;
+    }
+    #promptHistory.dark {
+      background: #222;
+    }
+    footer {
+      margin-top: 3rem;
+      text-align: center;
+      font-size: 0.9rem;
+      opacity: 0.6;
+    }
   </style>
 </head>
 <body>
   <button class="toggleTheme" title="Toggle Dark Mode" onclick="document.body.classList.toggle('dark')">🌙</button>  <div class="container">
-    <h1>ArtVandalAI v1</h1>
+    <h1>ArtVandalAI v2</h1>
     <p>Creative Chaos, Crafted by AI</p><label>Prompt:</label>
 <textarea id="promptInput" placeholder="e.g., A futuristic city in sunset lighting"></textarea>
 
@@ -159,7 +175,15 @@
 <button id="generateBtn">Generate</button>
 <div id="imagesContainer" class="grid"></div>
 
-  </div>  <script>
+<div id="promptHistory">
+  <h3>Prompt History</h3>
+  <ul id="historyList"></ul>
+  <button onclick="clearHistory()">Clear History</button>
+</div>
+
+  </div>  <footer>
+    Made with ☕ by Lenny Rajan
+  </footer>  <script>
     const promptInput = document.getElementById('promptInput');
     const negativePromptInput = document.getElementById('negativePromptInput');
     const imageCountSelect = document.getElementById('imageCount');
@@ -167,6 +191,7 @@
     const sizeSelect = document.getElementById('sizeSelect');
     const generateBtn = document.getElementById('generateBtn');
     const imagesContainer = document.getElementById('imagesContainer');
+    const historyList = document.getElementById('historyList');
 
     const statusMessages = ["Brewing...", "Crafting...", "Imagining...", "Rendering...", "Composing...", "Processing...", "Dreaming up visuals...", "Picturing perfection..."];
 
@@ -222,12 +247,23 @@
       document.body.appendChild(popup);
     }
 
+    function addToHistory(prompt) {
+      const li = document.createElement('li');
+      li.textContent = prompt;
+      historyList.prepend(li);
+    }
+
+    function clearHistory() {
+      historyList.innerHTML = '';
+    }
+
     async function generateImages() {
       const count = parseInt(imageCountSelect.value);
       const basePrompt = buildPrompt();
       if (!basePrompt) return alert('Please enter a prompt');
 
       clearImages();
+      addToHistory(basePrompt);
       imagesContainer.classList.add(`grid-${count}`);
       generateBtn.disabled = true;
 
