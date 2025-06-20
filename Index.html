@@ -1,27 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ArtVandalAI — Unlimited AI Image Generator</title>
-  <meta name="description" content="Create unlimited AI images from any text prompt using ArtVandalAI. Style, customize, and download your creations instantly." />
-  <meta name="keywords" content="AI image generator, unlimited AI art, generate AI images, prompt to image, ArtVandalAI" />
+  <meta name="description" content="ArtVandalAI — Unlimited AI-generated art from your prompts. Just type and create!" />
+  <meta name="keywords" content="AI art, image generator, unlimited art, stable diffusion, prompt-based art, ArtVandalAI" />
   <meta name="author" content="Lenny Rajan" />
+  <meta name="robots" content="index, follow" />
   <meta name="google-site-verification" content="AOiTGI_SnsG9S2IfTSFuHc4RVun0iFu8mgcWKqJVYqc" />
-
-  <!-- Open Graph Meta -->
-  <meta property="og:title" content="ArtVandalAI — Unlimited AI Image Generator" />
-  <meta property="og:description" content="Create unlimited AI images from any text prompt using ArtVandalAI." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://yourdomain.com/" />
-  <meta property="og:image" content="https://yourdomain.com/og-preview.jpg" />
-
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="ArtVandalAI — Unlimited AI Image Generator" />
-  <meta name="twitter:description" content="Create unlimited AI images from text prompts with styles like Anime, Cyberpunk, and more." />
-  <meta name="twitter:image" content="https://yourdomain.com/og-preview.jpg" />
-
+  <title>ArtVandalAI — Creative Chaos, Crafted by AI</title>
   <style>
     body {
       font-family: sans-serif;
@@ -36,19 +22,14 @@
     }
     .toggleTheme {
       position: fixed;
-      top: 1rem;
+      top: 0.8rem;
       right: 1rem;
       background: transparent;
       border: none;
-      font-size: 1.2rem;
-      padding: 0.3rem;
-      border-radius: 50%;
+      font-size: 1.4rem;
       cursor: pointer;
       color: inherit;
       z-index: 1000;
-    }
-    .toggleTheme:hover {
-      background: rgba(255,255,255,0.1);
     }
     .container {
       max-width: 900px;
@@ -61,27 +42,29 @@
       padding: 0.5rem;
       font-size: 1rem;
     }
-    button:not(.toggleTheme) {
+    button {
       background-color: #ff4081;
       color: white;
       border: none;
       cursor: pointer;
     }
-    button:not(.toggleTheme):hover {
+    button:hover {
       background-color: #e73370;
     }
     #imagesContainer {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
       gap: 1rem;
+      grid-template-columns: repeat(2, 1fr);
     }
     .imageCard {
       background: white;
-      color: #000;
       padding: 0.5rem;
       border-radius: 8px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       text-align: center;
+    }
+    body:not(.light) .imageCard {
+      background: #1e1e1e;
     }
     .imageCard img {
       width: 100%;
@@ -110,7 +93,7 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: rgba(0, 0, 0, 0.85);
+      background: rgba(0, 0, 0, 0.8);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -142,6 +125,9 @@
       background: #222;
       border-radius: 6px;
     }
+    .light #promptHistory {
+      background: #eee;
+    }
     footer {
       margin-top: 3rem;
       text-align: center;
@@ -150,62 +136,64 @@
     }
   </style>
 </head>
-<body class="dark">
-  <button class="toggleTheme" title="Toggle Dark Mode" onclick="toggleDarkMode()">🌙</button>
-  <div class="container">
+<body>
+  <button class="toggleTheme" title="Toggle Dark Mode" onclick="toggleTheme()">🌗</button>  <div class="container">
     <h1>ArtVandalAI</h1>
-    <p>Unlimited AI Image Generator. Creative Chaos, Crafted by AI.</p>
+    <p>Creative Chaos, Crafted by AI. Unlimited image generation.</p><label>Prompt:</label>
+<textarea id="promptInput" placeholder="e.g., A futuristic city in sunset lighting"></textarea>
 
-    <label>Prompt:</label>
-    <textarea id="promptInput" placeholder="e.g., A futuristic city in sunset lighting"></textarea>
+<label>Negative Prompt (optional):</label>
+<textarea id="negativePromptInput" placeholder="e.g., blur, dark, low quality"></textarea>
 
-    <label>Negative Prompt (optional):</label>
-    <textarea id="negativePromptInput" placeholder="e.g., blur, dark, low quality"></textarea>
+<label>Number of Images:</label>
+<select id="imageCount">
+  <option value="1">1</option>
+  <option value="2" selected>2</option>
+  <option value="3">3</option>
+  <option value="4">4</option>
+  <option value="5">5</option>
+  <option value="6">6</option>
+</select>
 
-    <label>Number of Images:</label>
-    <select id="imageCount">
-      <option value="1">1</option>
-      <option value="2" selected>2</option>
-      <option value="3">3</option>
-      <option value="4">4</option>
-      <option value="5">5</option>
-      <option value="6">6</option>
-    </select>
+<label>Style:</label>
+<select id="styleSelect">
+  <option value="">-- optional --</option>
+  <option value="anime">Anime</option>
+  <option value="photorealistic">Photorealistic</option>
+  <option value="watercolor painting">Watercolor Painting</option>
+  <option value="cyberpunk">Cyberpunk</option>
+  <option value="studio ghibli">Studio Ghibli</option>
+  <option value="hyper realistic photograph">Hyper Realistic Photograph</option>
+  <option value="macro photography">Macro Photography</option>
+</select>
 
-    <label>Style:</label>
-    <select id="styleSelect">
-      <option value="">-- optional --</option>
-      <option value="anime">Anime</option>
-      <option value="photorealistic">Photorealistic</option>
-      <option value="watercolor painting">Watercolor Painting</option>
-      <option value="cyberpunk">Cyberpunk</option>
-      <option value="Studio Ghibli">Studio Ghibli</option>
-      <option value="macro photography">Macro Photography</option>
-      <option value="hyper realistic photograph">Hyper Realistic Photograph</option>
-    </select>
+<label>Aspect Ratio:</label>
+<select id="sizeSelect">
+  <option value="1:1">Square (1:1)</option>
+  <option value="4:5">Portrait (4:5)</option>
+  <option value="16:9">Landscape (16:9)</option>
+</select>
 
-    <label>Aspect Ratio:</label>
-    <select id="sizeSelect">
-      <option value="1:1">Square (1:1)</option>
-      <option value="4:5">Portrait (4:5)</option>
-      <option value="16:9">Landscape (16:9)</option>
-    </select>
+<button id="generateBtn">Generate</button>
+<div id="imagesContainer"></div>
 
-    <button id="generateBtn">Generate</button>
-    <div id="imagesContainer"></div>
+<div id="promptHistory">
+  <h3>Prompt History</h3>
+  <ul id="historyList"></ul>
+  <button onclick="clearHistory()">Clear History</button>
+</div>
 
-    <div id="promptHistory">
-      <h3>Prompt History</h3>
-      <ul id="historyList"></ul>
-      <button onclick="clearHistory()">Clear History</button>
-    </div>
-  </div>
-
-  <footer>
+  </div>  <footer>
     Made with ☕ by Lenny Rajan
-  </footer>
+  </footer>  <script>
+    if (!document.body.classList.contains('light')) {
+      document.body.classList.remove('light');
+    }
 
-  <script>
+    function toggleTheme() {
+      document.body.classList.toggle('light');
+    }
+
     const promptInput = document.getElementById('promptInput');
     const negativePromptInput = document.getElementById('negativePromptInput');
     const imageCountSelect = document.getElementById('imageCount');
@@ -215,14 +203,7 @@
     const imagesContainer = document.getElementById('imagesContainer');
     const historyList = document.getElementById('historyList');
 
-    const statusMessages = [
-      "Brewing...", "Crafting...", "Imagining...", "Rendering...",
-      "Composing...", "Processing...", "Dreaming up visuals...", "Picturing perfection..."
-    ];
-
-    function toggleDarkMode() {
-      document.body.classList.toggle('dark');
-    }
+    const statusMessages = ["Brewing...", "Crafting...", "Imagining...", "Rendering...", "Composing...", "Processing...", "Dreaming up visuals...", "Picturing perfection..."];
 
     function getRandomMessage(prev = "") {
       let msg;
@@ -295,7 +276,6 @@
       generateBtn.disabled = true;
 
       const cardRefs = [];
-
       for (let i = 0; i < count; i++) {
         const card = document.createElement('div');
         card.className = 'imageCard';
@@ -307,7 +287,6 @@
 
         card.appendChild(statusText);
         imagesContainer.appendChild(card);
-
         cardRefs.push({ card, statusText, prevMsg: initialMsg });
       }
 
@@ -320,7 +299,7 @@
           prev = msg;
         }, 1200);
 
-        const uniquePrompt = `${basePrompt}, unique-${Math.random().toString(36).substring(2)}`;
+        const uniquePrompt = `${basePrompt}, unique-${Math.random().toString(36).substring(7)}`;
         const url = generateImageURL(uniquePrompt, sizeSelect.value);
 
         const img = new Image();
@@ -349,15 +328,12 @@
           clearInterval(interval);
           statusText.textContent = "Failed to load image 😞";
         };
-
         img.src = url;
         await new Promise(r => setTimeout(r, 350));
       }
-
       generateBtn.disabled = false;
     }
 
     generateBtn.addEventListener('click', generateImages);
-  </script>
-</body>
+  </script></body>
 </html>
