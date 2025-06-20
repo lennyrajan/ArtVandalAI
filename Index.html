@@ -15,6 +15,16 @@
       background: #121212;
       color: #f4f4f4;
     }
+    .toggleTheme {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: inherit;
+    }
     .container {
       max-width: 900px;
       margin: auto;
@@ -51,6 +61,13 @@
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       text-align: center;
     }
+    .imageCard img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+      border-radius: 6px;
+    }
     .statusText {
       font-style: italic;
       color: #888;
@@ -64,9 +81,30 @@
       padding: 0.3rem 0.6rem;
       font-size: 0.85rem;
     }
+    .history {
+      background: #fff;
+      border: 1px solid #ccc;
+      padding: 0.5rem;
+      margin-top: 1rem;
+      border-radius: 6px;
+    }
+    .history h3 {
+      margin-top: 0;
+    }
+    .history ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    .history li {
+      margin: 0.25rem 0;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
+  <button class="toggleTheme" title="Toggle Dark Mode" onclick="document.body.classList.toggle('dark')">
+    🌙
+  </button>
   <div class="container">
     <h1>ArtVandalAI</h1>
     <p>Creative Chaos, Crafted by AI</p><label>Prompt:</label>
@@ -104,6 +142,12 @@
 <button id="generateBtn">Generate</button>
 <div id="imagesContainer"></div>
 
+<div class="history">
+  <h3>Prompt History</h3>
+  <ul id="promptHistory"></ul>
+  <button onclick="clearPromptHistory()">Clear History</button>
+</div>
+
   </div>  <script>
     const promptInput = document.getElementById('promptInput');
     const negativePromptInput = document.getElementById('negativePromptInput');
@@ -112,6 +156,7 @@
     const sizeSelect = document.getElementById('sizeSelect');
     const generateBtn = document.getElementById('generateBtn');
     const imagesContainer = document.getElementById('imagesContainer');
+    const promptHistory = document.getElementById('promptHistory');
 
     const statusMessages = ["Brewing...", "Crafting...", "Imagining...", "Rendering...", "Composing..."];
 
@@ -146,10 +191,39 @@
       imagesContainer.className = '';
     }
 
+    function addPromptToHistory(prompt) {
+      let history = JSON.parse(localStorage.getItem('promptHistory') || '[]');
+      if (!history.includes(prompt)) {
+        history.unshift(prompt);
+        localStorage.setItem('promptHistory', JSON.stringify(history.slice(0, 10)));
+        renderPromptHistory();
+      }
+    }
+
+    function renderPromptHistory() {
+      let history = JSON.parse(localStorage.getItem('promptHistory') || '[]');
+      promptHistory.innerHTML = '';
+      history.forEach(p => {
+        const li = document.createElement('li');
+        li.textContent = p;
+        li.onclick = () => {
+          promptInput.value = p;
+        };
+        promptHistory.appendChild(li);
+      });
+    }
+
+    function clearPromptHistory() {
+      localStorage.removeItem('promptHistory');
+      renderPromptHistory();
+    }
+
     async function generateImages() {
       const count = parseInt(imageCountSelect.value);
       const basePrompt = buildPrompt();
       if (!basePrompt) return alert('Please enter a prompt');
+
+      addPromptToHistory(basePrompt);
 
       clearImages();
       generateBtn.disabled = true;
@@ -217,5 +291,6 @@
     }
 
     generateBtn.addEventListener('click', generateImages);
+    renderPromptHistory();
   </script></body>
 </html>
