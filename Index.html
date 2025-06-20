@@ -116,25 +116,23 @@
       text-align: center;
       cursor: pointer;
     }
-    #promptHistory {
-      margin-top: 2rem;
-      padding: 1rem;
-      background: #eee;
-      border-radius: 6px;
-    }
-    #promptHistory.dark {
-      background: #222;
-    }
     footer {
       margin-top: 3rem;
       text-align: center;
       font-size: 0.9rem;
       opacity: 0.6;
     }
+    #promptHistory {
+      margin-top: 2rem;
+      padding: 1rem;
+      background: #eee;
+      border-radius: 6px;
+    }
   </style>
 </head>
 <body>
-  <button class="toggleTheme" title="Toggle Dark Mode" onclick="document.body.classList.toggle('dark')">🌙</button>  <div class="container">
+  <button class="toggleTheme" title="Toggle Dark Mode" onclick="document.body.classList.toggle('dark')">🌙</button>
+  <div class="container">
     <h1>ArtVandalAI</h1>
     <p>Creative Chaos, Crafted by AI</p><label>Prompt:</label>
 <textarea id="promptInput" placeholder="e.g., A futuristic city in sunset lighting"></textarea>
@@ -157,8 +155,21 @@
   <option value="">-- optional --</option>
   <option value="anime">Anime</option>
   <option value="photorealistic">Photorealistic</option>
+  <option value="hyper realistic photograph">Hyper Realistic Photograph</option>
+  <option value="macro photography">Macro Photography</option>
+  <option value="studio ghibli style">Studio Ghibli Style</option>
   <option value="watercolor painting">Watercolor Painting</option>
+  <option value="oil painting">Oil Painting</option>
+  <option value="digital art">Digital Art</option>
+  <option value="concept art">Concept Art</option>
+  <option value="pixel art">Pixel Art</option>
+  <option value="fantasy">Fantasy</option>
+  <option value="3d render">3D Render</option>
   <option value="cyberpunk">Cyberpunk</option>
+  <option value="steampunk">Steampunk</option>
+  <option value="gothic">Gothic</option>
+  <option value="surrealism">Surrealism</option>
+  <option value="vaporwave">Vaporwave</option>
 </select>
 
 <label>Aspect Ratio:</label>
