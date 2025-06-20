@@ -1,8 +1,27 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ArtVandalAI — Creative Chaos, Crafted by AI</title>
+  <title>ArtVandalAI — Unlimited AI Image Generator</title>
+  <meta name="description" content="Create unlimited AI images from any text prompt using ArtVandalAI. Style, customize, and download your creations instantly." />
+  <meta name="keywords" content="AI image generator, unlimited AI art, generate AI images, prompt to image, ArtVandalAI" />
+  <meta name="author" content="Lenny Rajan" />
+  <meta name="google-site-verification" content="AOiTGI_SnsG9S2IfTSFuHc4RVun0iFu8mgcWKqJVYqc" />
+
+  <!-- Open Graph Meta -->
+  <meta property="og:title" content="ArtVandalAI — Unlimited AI Image Generator" />
+  <meta property="og:description" content="Create unlimited AI images from any text prompt using ArtVandalAI." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://yourdomain.com/" />
+  <meta property="og:image" content="https://yourdomain.com/og-preview.jpg" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="ArtVandalAI — Unlimited AI Image Generator" />
+  <meta name="twitter:description" content="Create unlimited AI images from text prompts with styles like Anime, Cyberpunk, and more." />
+  <meta name="twitter:image" content="https://yourdomain.com/og-preview.jpg" />
+
   <style>
     body {
       font-family: sans-serif;
@@ -19,12 +38,17 @@
       position: fixed;
       top: 1rem;
       right: 1rem;
-      background: none;
+      background: transparent;
       border: none;
-      font-size: 1.5rem;
+      font-size: 1.2rem;
+      padding: 0.3rem;
+      border-radius: 50%;
       cursor: pointer;
       color: inherit;
       z-index: 1000;
+    }
+    .toggleTheme:hover {
+      background: rgba(255,255,255,0.1);
     }
     .container {
       max-width: 900px;
@@ -37,22 +61,23 @@
       padding: 0.5rem;
       font-size: 1rem;
     }
-    button {
+    button:not(.toggleTheme) {
       background-color: #ff4081;
       color: white;
       border: none;
       cursor: pointer;
     }
-    button:hover {
+    button:not(.toggleTheme):hover {
       background-color: #e73370;
     }
     #imagesContainer {
       display: grid;
-      gap: 1rem;
       grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
     }
     .imageCard {
       background: white;
+      color: #000;
       padding: 0.5rem;
       border-radius: 8px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
@@ -85,7 +110,7 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: rgba(0, 0, 0, 0.8);
+      background: rgba(0, 0, 0, 0.85);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -125,15 +150,18 @@
     }
   </style>
 </head>
-<body>
-  <button class="toggleTheme" title="Toggle Dark Mode" onclick="document.body.classList.toggle('light')">🌙</button>
+<body class="dark">
+  <button class="toggleTheme" title="Toggle Dark Mode" onclick="toggleDarkMode()">🌙</button>
   <div class="container">
     <h1>ArtVandalAI</h1>
-    <p>Creative Chaos, Crafted by AI</p>
+    <p>Unlimited AI Image Generator. Creative Chaos, Crafted by AI.</p>
+
     <label>Prompt:</label>
     <textarea id="promptInput" placeholder="e.g., A futuristic city in sunset lighting"></textarea>
+
     <label>Negative Prompt (optional):</label>
     <textarea id="negativePromptInput" placeholder="e.g., blur, dark, low quality"></textarea>
+
     <label>Number of Images:</label>
     <select id="imageCount">
       <option value="1">1</option>
@@ -143,6 +171,7 @@
       <option value="5">5</option>
       <option value="6">6</option>
     </select>
+
     <label>Style:</label>
     <select id="styleSelect">
       <option value="">-- optional --</option>
@@ -150,27 +179,32 @@
       <option value="photorealistic">Photorealistic</option>
       <option value="watercolor painting">Watercolor Painting</option>
       <option value="cyberpunk">Cyberpunk</option>
-      <option value="studio ghibli">Studio Ghibli</option>
+      <option value="Studio Ghibli">Studio Ghibli</option>
       <option value="macro photography">Macro Photography</option>
       <option value="hyper realistic photograph">Hyper Realistic Photograph</option>
     </select>
+
     <label>Aspect Ratio:</label>
     <select id="sizeSelect">
       <option value="1:1">Square (1:1)</option>
       <option value="4:5">Portrait (4:5)</option>
       <option value="16:9">Landscape (16:9)</option>
     </select>
+
     <button id="generateBtn">Generate</button>
     <div id="imagesContainer"></div>
+
     <div id="promptHistory">
       <h3>Prompt History</h3>
       <ul id="historyList"></ul>
       <button onclick="clearHistory()">Clear History</button>
     </div>
   </div>
+
   <footer>
     Made with ☕ by Lenny Rajan
   </footer>
+
   <script>
     const promptInput = document.getElementById('promptInput');
     const negativePromptInput = document.getElementById('negativePromptInput');
@@ -179,146 +213,151 @@
     const sizeSelect = document.getElementById('sizeSelect');
     const generateBtn = document.getElementById('generateBtn');
     const imagesContainer = document.getElementById('imagesContainer');
-    const historyList = document.getElementById('historyList');const statusMessages = [
-  "Brewing...", "Crafting...", "Imagining...", "Rendering...",
-  "Composing...", "Processing...", "Dreaming up visuals...", "Picturing perfection..."
-];
+    const historyList = document.getElementById('historyList');
 
-function getRandomMessage(prev = "") {
-  let msg;
-  do {
-    msg = statusMessages[Math.floor(Math.random() * statusMessages.length)];
-  } while (msg === prev);
-  return msg;
-}
+    const statusMessages = [
+      "Brewing...", "Crafting...", "Imagining...", "Rendering...",
+      "Composing...", "Processing...", "Dreaming up visuals...", "Picturing perfection..."
+    ];
 
-function buildPrompt() {
-  let prompt = promptInput.value.trim();
-  if (styleSelect.value) prompt += ", " + styleSelect.value;
-  if (negativePromptInput.value.trim()) prompt += ", negative prompt: " + negativePromptInput.value.trim();
-  return prompt;
-}
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark');
+    }
 
-function generateImageURL(prompt, size) {
-  return `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt + ', ' + size + ' aspect ratio')}?rand=${Math.random()}`;
-}
+    function getRandomMessage(prev = "") {
+      let msg;
+      do {
+        msg = statusMessages[Math.floor(Math.random() * statusMessages.length)];
+      } while (msg === prev);
+      return msg;
+    }
 
-function copyToClipboard(text) {
-  navigator.clipboard.writeText(text).then(() => alert('Prompt copied'));
-}
+    function buildPrompt() {
+      let prompt = promptInput.value.trim();
+      if (styleSelect.value) prompt += ", " + styleSelect.value;
+      if (negativePromptInput.value.trim()) prompt += ", negative prompt: " + negativePromptInput.value.trim();
+      return prompt;
+    }
 
-function downloadImage(url, index) {
-  fetch(url).then(res => res.blob()).then(blob => {
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = `artvandalai_image_${index + 1}.png`;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-  });
-}
+    function generateImageURL(prompt, size) {
+      return `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt + ', ' + size + ' aspect ratio')}?rand=${Math.random()}`;
+    }
 
-function clearImages() {
-  imagesContainer.innerHTML = '';
-}
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => alert('Prompt copied'));
+    }
 
-function showPopup(src) {
-  const popup = document.createElement('div');
-  popup.className = 'popup';
-  const img = document.createElement('img');
-  img.src = src;
-  const btn = document.createElement('button');
-  btn.textContent = '✕';
-  btn.className = 'closeBtn';
-  btn.onclick = () => popup.remove();
-  popup.append(img, btn);
-  document.body.appendChild(popup);
-}
+    function downloadImage(url, index) {
+      fetch(url).then(res => res.blob()).then(blob => {
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `artvandalai_image_${index + 1}.png`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      });
+    }
 
-function addToHistory(prompt) {
-  const li = document.createElement('li');
-  li.textContent = prompt;
-  historyList.prepend(li);
-}
+    function clearImages() {
+      imagesContainer.innerHTML = '';
+    }
 
-function clearHistory() {
-  historyList.innerHTML = '';
-}
+    function showPopup(src) {
+      const popup = document.createElement('div');
+      popup.className = 'popup';
+      const img = document.createElement('img');
+      img.src = src;
+      const btn = document.createElement('button');
+      btn.textContent = '✕';
+      btn.className = 'closeBtn';
+      btn.onclick = () => popup.remove();
+      popup.append(img, btn);
+      document.body.appendChild(popup);
+    }
 
-async function generateImages() {
-  const count = parseInt(imageCountSelect.value);
-  const basePrompt = buildPrompt();
-  if (!basePrompt) return alert('Please enter a prompt');
+    function addToHistory(prompt) {
+      const li = document.createElement('li');
+      li.textContent = prompt;
+      historyList.prepend(li);
+    }
 
-  clearImages();
-  addToHistory(basePrompt);
-  generateBtn.disabled = true;
+    function clearHistory() {
+      historyList.innerHTML = '';
+    }
 
-  const cardRefs = [];
+    async function generateImages() {
+      const count = parseInt(imageCountSelect.value);
+      const basePrompt = buildPrompt();
+      if (!basePrompt) return alert('Please enter a prompt');
 
-  for (let i = 0; i < count; i++) {
-    const card = document.createElement('div');
-    card.className = 'imageCard';
+      clearImages();
+      addToHistory(basePrompt);
+      generateBtn.disabled = true;
 
-    const statusText = document.createElement('div');
-    statusText.className = 'statusText';
-    const initialMsg = getRandomMessage();
-    statusText.textContent = initialMsg;
+      const cardRefs = [];
 
-    card.appendChild(statusText);
-    imagesContainer.appendChild(card);
+      for (let i = 0; i < count; i++) {
+        const card = document.createElement('div');
+        card.className = 'imageCard';
 
-    cardRefs.push({ card, statusText, prevMsg: initialMsg });
-  }
+        const statusText = document.createElement('div');
+        statusText.className = 'statusText';
+        const initialMsg = getRandomMessage();
+        statusText.textContent = initialMsg;
 
-  for (let i = 0; i < count; i++) {
-    const { card, statusText } = cardRefs[i];
-    let prev = cardRefs[i].prevMsg;
-    const interval = setInterval(() => {
-      const msg = getRandomMessage(prev);
-      statusText.textContent = msg;
-      prev = msg;
-    }, 1200);
+        card.appendChild(statusText);
+        imagesContainer.appendChild(card);
 
-    const uniquePrompt = `${basePrompt}, unique ${Math.random().toString(36).substring(7)}`;
-    const url = generateImageURL(uniquePrompt, sizeSelect.value);
+        cardRefs.push({ card, statusText, prevMsg: initialMsg });
+      }
 
-    const img = new Image();
-    img.alt = `Generated image ${i + 1}`;
-    img.onload = () => {
-      clearInterval(interval);
-      card.innerHTML = '';
-      card.appendChild(img);
-      img.onclick = () => showPopup(img.src);
+      for (let i = 0; i < count; i++) {
+        const { card, statusText } = cardRefs[i];
+        let prev = cardRefs[i].prevMsg;
+        const interval = setInterval(() => {
+          const msg = getRandomMessage(prev);
+          statusText.textContent = msg;
+          prev = msg;
+        }, 1200);
 
-      const actions = document.createElement('div');
-      actions.className = 'imageActions';
+        const uniquePrompt = `${basePrompt}, unique-${Math.random().toString(36).substring(2)}`;
+        const url = generateImageURL(uniquePrompt, sizeSelect.value);
 
-      const dlBtn = document.createElement('button');
-      dlBtn.textContent = 'Download';
-      dlBtn.onclick = () => downloadImage(img.src, i);
+        const img = new Image();
+        img.alt = `Generated image ${i + 1}`;
+        img.onload = () => {
+          clearInterval(interval);
+          card.innerHTML = '';
+          card.appendChild(img);
+          img.onclick = () => showPopup(img.src);
 
-      const cpBtn = document.createElement('button');
-      cpBtn.textContent = 'Copy Prompt';
-      cpBtn.onclick = () => copyToClipboard(basePrompt);
+          const actions = document.createElement('div');
+          actions.className = 'imageActions';
 
-      actions.append(dlBtn, cpBtn);
-      card.appendChild(actions);
-    };
-    img.onerror = () => {
-      clearInterval(interval);
-      statusText.textContent = "Failed to load image 😞";
-    };
+          const dlBtn = document.createElement('button');
+          dlBtn.textContent = 'Download';
+          dlBtn.onclick = () => downloadImage(img.src, i);
 
-    img.src = url;
-    await new Promise(r => setTimeout(r, 350));
-  }
+          const cpBtn = document.createElement('button');
+          cpBtn.textContent = 'Copy Prompt';
+          cpBtn.onclick = () => copyToClipboard(basePrompt);
 
-  generateBtn.disabled = false;
-}
+          actions.append(dlBtn, cpBtn);
+          card.appendChild(actions);
+        };
+        img.onerror = () => {
+          clearInterval(interval);
+          statusText.textContent = "Failed to load image 😞";
+        };
 
-generateBtn.addEventListener('click', generateImages);
+        img.src = url;
+        await new Promise(r => setTimeout(r, 350));
+      }
 
+      generateBtn.disabled = false;
+    }
+
+    generateBtn.addEventListener('click', generateImages);
   </script>
 </body>
 </html>
