@@ -24,10 +24,12 @@
       font-size: 1.5rem;
       cursor: pointer;
       color: inherit;
+      z-index: 1000;
     }
     .container {
       max-width: 900px;
       margin: auto;
+      padding-top: 3rem;
     }
     textarea, select, button {
       width: 100%;
@@ -158,7 +160,15 @@
     const imagesContainer = document.getElementById('imagesContainer');
     const promptHistory = document.getElementById('promptHistory');
 
-    const statusMessages = ["Brewing...", "Crafting...", "Imagining...", "Rendering...", "Composing..."];
+    const statusMessages = ["Brewing...", "Crafting...", "Imagining...", "Rendering...", "Composing...", "Processing...", "Dreaming up visuals...", "Picturing perfection..."];
+
+    function getRandomMessage(prevMsg) {
+      let newMsg;
+      do {
+        newMsg = statusMessages[Math.floor(Math.random() * statusMessages.length)];
+      } while (newMsg === prevMsg);
+      return newMsg;
+    }
 
     function buildPrompt() {
       let prompt = promptInput.value.trim();
@@ -168,7 +178,7 @@
     }
 
     function generateImageURL(prompt, size) {
-      return `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt + ', ' + size + ' aspect ratio')}`;
+      return `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt + ', ' + size + ' aspect ratio')}?rand=${Math.random()}`;
     }
 
     function copyToClipboard(text) {
@@ -237,19 +247,22 @@
 
         const statusText = document.createElement('div');
         statusText.className = 'statusText';
-        statusText.textContent = statusMessages[i % statusMessages.length];
+        const initMsg = getRandomMessage();
+        statusText.textContent = initMsg;
 
         card.appendChild(statusText);
         imagesContainer.appendChild(card);
 
-        cardRefs.push({ card, statusText, interval: null });
+        cardRefs.push({ card, statusText, interval: null, prevMsg: initMsg });
       }
 
       for (let i = 0; i < count; i++) {
         const { card, statusText } = cardRefs[i];
-        let idx = 0;
+        let prevMsg = cardRefs[i].prevMsg;
         const interval = setInterval(() => {
-          statusText.textContent = statusMessages[idx++ % statusMessages.length];
+          const msg = getRandomMessage(prevMsg);
+          statusText.textContent = msg;
+          prevMsg = msg;
         }, 1200);
         cardRefs[i].interval = interval;
 
@@ -284,7 +297,7 @@
 
         img.src = url;
 
-        await new Promise(r => setTimeout(r, 300));
+        await new Promise(r => setTimeout(r, 350));
       }
 
       generateBtn.disabled = false;
