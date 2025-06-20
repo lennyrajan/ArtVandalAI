@@ -2,7 +2,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ArtVandalAI V1.2 — Creative Chaos, Crafted by AI</title>
+  <title>ArtVandalAI — Creative Chaos, Crafted by AI</title>
   <style>
     body {
       font-family: sans-serif;
@@ -17,11 +17,12 @@
     }
     .toggleTheme {
       position: fixed;
-      top: 1rem;
-      right: 1rem;
+      top: 0.5rem;
+      right: 0.5rem;
       background: none;
       border: none;
       font-size: 1.5rem;
+      padding: 0.25rem;
       cursor: pointer;
       color: inherit;
       z-index: 1000;
@@ -37,13 +38,13 @@
       padding: 0.5rem;
       font-size: 1rem;
     }
-    button {
+    button:not(.toggleTheme) {
       background-color: #ff4081;
       color: white;
       border: none;
       cursor: pointer;
     }
-    button:hover {
+    button:not(.toggleTheme):hover {
       background-color: #e73370;
     }
     #imagesContainer.grid {
@@ -103,15 +104,19 @@
       max-height: 90vh;
       border-radius: 8px;
     }
-    .popup button {
+    .popup .closeBtn {
       position: absolute;
       top: 1rem;
       right: 1rem;
       background: red;
       color: white;
       border: none;
-      padding: 0.5rem 1rem;
-      font-size: 1.2rem;
+      border-radius: 50%;
+      width: 2rem;
+      height: 2rem;
+      font-size: 1rem;
+      line-height: 1.9rem;
+      text-align: center;
       cursor: pointer;
     }
   </style>
@@ -181,7 +186,7 @@
     }
 
     function generateImageURL(prompt, size) {
-      return `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt + ', ' + size + ' aspect ratio')}?rand=${Math.random()}`;
+      return `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?aspectRatio=${encodeURIComponent(size)}&rand=${Math.random()}`;
     }
 
     function copyToClipboard(text) {
@@ -211,6 +216,7 @@
       img.src = src;
       const btn = document.createElement('button');
       btn.textContent = '✕';
+      btn.className = 'closeBtn';
       btn.onclick = () => popup.remove();
       popup.append(img, btn);
       document.body.appendChild(popup);
