@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -20,17 +21,28 @@
       background: #f4f4f4;
       color: #333;
     }
+
     .toggleTheme {
       position: fixed;
-      top: 0.8rem;
+      top: 1rem;
       right: 1rem;
-      background: transparent;
+      background: none;
       border: none;
-      font-size: 1.4rem;
+      font-size: 1.6rem;
+      line-height: 1;
+      padding: 0;
+      width: 2rem;
+      height: 2rem;
       cursor: pointer;
       color: inherit;
-      z-index: 1000;
+      z-index: 10000;
+      user-select: none;
     }
+    .toggleTheme:focus {
+      outline: 2px solid #ff4081;
+      outline-offset: 2px;
+    }
+
     .container {
       max-width: 900px;
       margin: auto;
@@ -137,59 +149,60 @@
   </style>
 </head>
 <body>
-  <button class="toggleTheme" title="Toggle Dark Mode" onclick="toggleTheme()">🌗</button>  <div class="container">
+  <button class="toggleTheme" title="Toggle Dark Mode" aria-label="Toggle Dark Mode">🌗</button>
+
+  <div class="container">
     <h1>ArtVandalAI</h1>
-    <p>Creative Chaos, Crafted by AI. Unlimited image generation.</p><label>Prompt:</label>
-<textarea id="promptInput" placeholder="e.g., A futuristic city in sunset lighting"></textarea>
+    <p>Creative Chaos, Crafted by AI. Unlimited image generation.</p>
 
-<label>Negative Prompt (optional):</label>
-<textarea id="negativePromptInput" placeholder="e.g., blur, dark, low quality"></textarea>
+    <label>Prompt:</label>
+    <textarea id="promptInput" placeholder="e.g., A futuristic city in sunset lighting"></textarea>
 
-<label>Number of Images:</label>
-<select id="imageCount">
-  <option value="1">1</option>
-  <option value="2" selected>2</option>
-  <option value="3">3</option>
-  <option value="4">4</option>
-  <option value="5">5</option>
-  <option value="6">6</option>
-</select>
+    <label>Negative Prompt (optional):</label>
+    <textarea id="negativePromptInput" placeholder="e.g., blur, dark, low quality"></textarea>
 
-<label>Style:</label>
-<select id="styleSelect">
-  <option value="">-- optional --</option>
-  <option value="anime">Anime</option>
-  <option value="photorealistic">Photorealistic</option>
-  <option value="watercolor painting">Watercolor Painting</option>
-  <option value="cyberpunk">Cyberpunk</option>
-  <option value="studio ghibli">Studio Ghibli</option>
-  <option value="hyper realistic photograph">Hyper Realistic Photograph</option>
-  <option value="macro photography">Macro Photography</option>
-</select>
+    <label>Number of Images:</label>
+    <select id="imageCount">
+      <option value="1">1</option>
+      <option value="2" selected>2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+    </select>
 
-<label>Aspect Ratio:</label>
-<select id="sizeSelect">
-  <option value="1:1">Square (1:1)</option>
-  <option value="4:5">Portrait (4:5)</option>
-  <option value="16:9">Landscape (16:9)</option>
-</select>
+    <label>Style:</label>
+    <select id="styleSelect">
+      <option value="">-- optional --</option>
+      <option value="anime">Anime</option>
+      <option value="photorealistic">Photorealistic</option>
+      <option value="watercolor painting">Watercolor Painting</option>
+      <option value="cyberpunk">Cyberpunk</option>
+      <option value="studio ghibli">Studio Ghibli</option>
+      <option value="hyper realistic photograph">Hyper Realistic Photograph</option>
+      <option value="macro photography">Macro Photography</option>
+    </select>
 
-<button id="generateBtn">Generate</button>
-<div id="imagesContainer"></div>
+    <label>Aspect Ratio:</label>
+    <select id="sizeSelect">
+      <option value="1:1">Square (1:1)</option>
+      <option value="4:5">Portrait (4:5)</option>
+      <option value="16:9">Landscape (16:9)</option>
+    </select>
 
-<div id="promptHistory">
-  <h3>Prompt History</h3>
-  <ul id="historyList"></ul>
-  <button onclick="clearHistory()">Clear History</button>
-</div>
+    <button id="generateBtn">Generate</button>
+    <div id="imagesContainer"></div>
 
-  </div>  <footer>
-    Made with ☕ by Lenny Rajan
-  </footer>  <script>
-    if (!document.body.classList.contains('light')) {
-      document.body.classList.remove('light');
-    }
+    <div id="promptHistory">
+      <h3>Prompt History</h3>
+      <ul id="historyList"></ul>
+      <button onclick="clearHistory()">Clear History</button>
+    </div>
+  </div>
 
+  <footer>Made with ☕ by Lenny Rajan</footer>
+
+  <script>
     function toggleTheme() {
       document.body.classList.toggle('light');
     }
@@ -203,7 +216,10 @@
     const imagesContainer = document.getElementById('imagesContainer');
     const historyList = document.getElementById('historyList');
 
-    const statusMessages = ["Brewing...", "Crafting...", "Imagining...", "Rendering...", "Composing...", "Processing...", "Dreaming up visuals...", "Picturing perfection..."];
+    const statusMessages = [
+      "Brewing...", "Crafting...", "Imagining...", "Rendering...",
+      "Composing...", "Processing...", "Dreaming up visuals...", "Picturing perfection..."
+    ];
 
     function getRandomMessage(prev = "") {
       let msg;
@@ -335,5 +351,6 @@
     }
 
     generateBtn.addEventListener('click', generateImages);
-  </script></body>
+  </script>
+</body>
 </html>
