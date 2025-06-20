@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en" >
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -20,19 +19,18 @@
       position: fixed;
       top: 0.5rem;
       right: 0.5rem;
-      background: none;
+      background: transparent;
       border: none;
-      font-size: 1.5rem;
-      padding: 0.2rem;
+      font-size: 1.2rem;
+      padding: 0.3rem;
+      border-radius: 50%;
       cursor: pointer;
       color: inherit;
-      z-index: 10000;
-      width: 2rem;
-      height: 2rem;
-      line-height: 1;
-      text-align: center;
-      appearance: none;
-      user-select: none;
+      z-index: 1000;
+      transition: background 0.3s;
+    }
+    .toggleTheme:hover {
+      background: rgba(0,0,0,0.1);
     }
     .container {
       max-width: 900px;
@@ -44,15 +42,12 @@
       margin-bottom: 1rem;
       padding: 0.5rem;
       font-size: 1rem;
-      box-sizing: border-box;
     }
     button:not(.toggleTheme) {
       background-color: #ff4081;
       color: white;
       border: none;
       cursor: pointer;
-      border-radius: 4px;
-      transition: background-color 0.3s;
     }
     button:not(.toggleTheme):hover {
       background-color: #e73370;
@@ -62,7 +57,6 @@
       gap: 1rem;
     }
     #imagesContainer.grid-1 { grid-template-columns: 1fr; }
-    /* Show two columns for 2+ images */
     #imagesContainer.grid-2,
     #imagesContainer.grid-3,
     #imagesContainer.grid-4,
@@ -77,10 +71,6 @@
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       text-align: center;
     }
-    body.dark .imageCard {
-      background: #222;
-      box-shadow: 0 2px 8px rgba(255,255,255,0.1);
-    }
     .imageCard img {
       width: 100%;
       height: 200px;
@@ -88,7 +78,6 @@
       display: block;
       border-radius: 6px;
       cursor: pointer;
-      user-select: none;
     }
     .statusText {
       font-style: italic;
@@ -102,7 +91,6 @@
       margin: 0.25rem;
       padding: 0.3rem 0.6rem;
       font-size: 0.85rem;
-      border-radius: 3px;
     }
     .popup {
       position: fixed;
@@ -120,7 +108,6 @@
       max-width: 90vw;
       max-height: 90vh;
       border-radius: 8px;
-      user-select: none;
     }
     .popup .closeBtn {
       position: absolute;
@@ -132,50 +119,19 @@
       border-radius: 50%;
       width: 2rem;
       height: 2rem;
-      font-size: 1.2rem;
-      line-height: 1.8rem;
+      font-size: 1rem;
+      line-height: 1.9rem;
       text-align: center;
       cursor: pointer;
-      user-select: none;
     }
     #promptHistory {
       margin-top: 2rem;
       padding: 1rem;
       background: #eee;
       border-radius: 6px;
-      max-height: 200px;
-      overflow-y: auto;
     }
     #promptHistory.dark {
       background: #222;
-    }
-    #promptHistory h3 {
-      margin-top: 0;
-    }
-    #promptHistory ul {
-      list-style: none;
-      padding-left: 0;
-      margin: 0;
-    }
-    #promptHistory li {
-      padding: 0.2rem 0.4rem;
-      border-bottom: 1px solid #ccc;
-      cursor: default;
-      user-select: text;
-    }
-    #promptHistory button {
-      margin-top: 0.5rem;
-      width: auto;
-      padding: 0.4rem 1rem;
-      background: #999;
-      color: white;
-      border-radius: 4px;
-      border: none;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    #promptHistory button:hover {
-      background: #666;
     }
     footer {
       margin-top: 3rem;
@@ -186,35 +142,16 @@
   </style>
 </head>
 <body>
-  <button
-    class="toggleTheme"
-    title="Toggle Dark Mode"
-    aria-label="Toggle Dark Mode"
-    onclick="document.body.classList.toggle('dark')"
-  >🌙</button>
-
+  <button class="toggleTheme" title="Toggle Dark Mode" onclick="document.body.classList.toggle('dark')">🌙</button>
   <div class="container">
-    <h1>ArtVandalAI v3</h1>
+    <h1>ArtVandalAI</h1>
     <p>Creative Chaos, Crafted by AI</p>
-
-    <label for="promptInput">Prompt:</label>
-    <textarea
-      id="promptInput"
-      placeholder="e.g., A futuristic city in sunset lighting"
-      rows="3"
-      spellcheck="false"
-    ></textarea>
-
-    <label for="negativePromptInput">Negative Prompt (optional):</label>
-    <textarea
-      id="negativePromptInput"
-      placeholder="e.g., blur, dark, low quality"
-      rows="2"
-      spellcheck="false"
-    ></textarea>
-
-    <label for="imageCount">Number of Images:</label>
-    <select id="imageCount" aria-label="Number of Images">
+    <label>Prompt:</label>
+    <textarea id="promptInput" placeholder="e.g., A futuristic city in sunset lighting"></textarea>
+    <label>Negative Prompt (optional):</label>
+    <textarea id="negativePromptInput" placeholder="e.g., blur, dark, low quality"></textarea>
+    <label>Number of Images:</label>
+    <select id="imageCount">
       <option value="1">1</option>
       <option value="2" selected>2</option>
       <option value="3">3</option>
@@ -222,251 +159,191 @@
       <option value="5">5</option>
       <option value="6">6</option>
     </select>
-
-    <label for="styleSelect">Style:</label>
-    <select id="styleSelect" aria-label="Style">
+    <label>Style:</label>
+    <select id="styleSelect">
       <option value="">-- optional --</option>
       <option value="anime">Anime</option>
       <option value="photorealistic">Photorealistic</option>
       <option value="watercolor painting">Watercolor Painting</option>
       <option value="cyberpunk">Cyberpunk</option>
     </select>
-
-    <label for="sizeSelect">Aspect Ratio:</label>
-    <select id="sizeSelect" aria-label="Aspect Ratio">
-      <option value="1:1" selected>Square (1:1)</option>
+    <label>Aspect Ratio:</label>
+    <select id="sizeSelect">
+      <option value="1:1">Square (1:1)</option>
       <option value="4:5">Portrait (4:5)</option>
       <option value="16:9">Landscape (16:9)</option>
     </select>
-
-    <button id="generateBtn" aria-label="Generate Images">Generate</button>
-
+    <button id="generateBtn">Generate</button>
     <div id="imagesContainer" class="grid"></div>
-
-    <div id="promptHistory" aria-live="polite" aria-atomic="true">
+    <div id="promptHistory">
       <h3>Prompt History</h3>
       <ul id="historyList"></ul>
-      <button id="clearHistoryBtn" aria-label="Clear Prompt History">Clear History</button>
+      <button onclick="clearHistory()">Clear History</button>
     </div>
   </div>
-
-  <footer>Made with ☕ by Lenny Rajan</footer>
-
+  <footer>
+    Made with ☕ by Lenny Rajan
+  </footer>
   <script>
-    const promptInput = document.getElementById("promptInput");
-    const negativePromptInput = document.getElementById("negativePromptInput");
-    const imageCountSelect = document.getElementById("imageCount");
-    const styleSelect = document.getElementById("styleSelect");
-    const sizeSelect = document.getElementById("sizeSelect");
-    const generateBtn = document.getElementById("generateBtn");
-    const imagesContainer = document.getElementById("imagesContainer");
-    const historyList = document.getElementById("historyList");
-    const clearHistoryBtn = document.getElementById("clearHistoryBtn");
-    const promptHistoryDiv = document.getElementById("promptHistory");
+    const promptInput = document.getElementById('promptInput');
+    const negativePromptInput = document.getElementById('negativePromptInput');
+    const imageCountSelect = document.getElementById('imageCount');
+    const styleSelect = document.getElementById('styleSelect');
+    const sizeSelect = document.getElementById('sizeSelect');
+    const generateBtn = document.getElementById('generateBtn');
+    const imagesContainer = document.getElementById('imagesContainer');
+    const historyList = document.getElementById('historyList');const statusMessages = ["Brewing...", "Crafting...", "Imagining...", "Rendering...", "Composing...", "Processing...", "Dreaming up visuals...", "Picturing perfection..."];
 
-    const statusMessages = [
-      "Brewing...",
-      "Crafting...",
-      "Imagining...",
-      "Rendering...",
-      "Composing...",
-      "Processing...",
-      "Dreaming up visuals...",
-      "Picturing perfection...",
-    ];
+function getRandomMessage(prev = "") {
+  let msg;
+  do {
+    msg = statusMessages[Math.floor(Math.random() * statusMessages.length)];
+  } while (msg === prev);
+  return msg;
+}
 
-    // Random rotating status message generator avoiding repeats
-    function getRandomMessage(prev = "") {
-      let msg;
-      do {
-        msg = statusMessages[Math.floor(Math.random() * statusMessages.length)];
-      } while (msg === prev);
-      return msg;
+function buildPrompt() {
+  let prompt = promptInput.value.trim();
+  if (styleSelect.value) prompt += ", " + styleSelect.value;
+  if (negativePromptInput.value.trim()) prompt += ", negative prompt: " + negativePromptInput.value.trim();
+  return prompt;
+}
+
+function generateImageURL(prompt, size) {
+  if (size === "1:1") {
+    return `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?aspectRatio=1:1&rand=${Math.random()}`;
+  } else {
+    const keyword = prompt.split(",")[0].trim().replace(/\s+/g, "+");
+    const provider = Math.floor(Math.random() * 3);
+    switch (provider) {
+      case 0:
+        return `https://source.unsplash.com/512x512/?${keyword}`;
+      case 1:
+        return `https://picsum.photos/seed/${Math.random()}/512/512`;
+      case 2:
+        return `https://loremflickr.com/512/512/${keyword}`;
     }
+  }
+}
 
-    // Build full prompt string for Pollinations
-    function buildPrompt() {
-      let prompt = promptInput.value.trim();
-      if (styleSelect.value) prompt += ", " + styleSelect.value;
-      if (negativePromptInput.value.trim())
-        prompt += ", negative prompt: " + negativePromptInput.value.trim();
-      return prompt;
-    }
+function copyToClipboard(text) {
+  navigator.clipboard.writeText(text).then(() => alert('Prompt copied'));
+}
 
-    // Pollinations API URL generator (only square)
-    function generatePollinationsURL(prompt) {
-      return `https://image.pollinations.ai/prompt/${encodeURIComponent(
-        prompt
-      )}?aspectRatio=1:1&rand=${Math.random()}`;
-    }
+function downloadImage(url, index) {
+  fetch(url).then(res => res.blob()).then(blob => {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `artvandalai_image_${index + 1}.png`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  });
+}
 
-    // Unsplash Source API URL generator (portrait or landscape)
-    function generateUnsplashURL(prompt) {
-      // Take only the first part before comma, replace spaces with + for keywords
-      const keywords = prompt.split(",")[0].trim().split(" ").join("+");
-      // size 512x512 for square-ish images, to keep consistent UI
-      return `https://source.unsplash.com/512x512/?${keywords}`;
-    }
+function clearImages() {
+  imagesContainer.innerHTML = '';
+  imagesContainer.className = 'grid';
+}
 
-    // Select image URL based on aspect ratio choice
-    function getImageURL(prompt, aspectRatio) {
-      if (aspectRatio === "1:1") {
-        // Pollinations AI image
-        return generatePollinationsURL(prompt);
-      } else {
-        // Unsplash real photo fallback
-        return generateUnsplashURL(prompt);
-      }
-    }
+function showPopup(src) {
+  const popup = document.createElement('div');
+  popup.className = 'popup';
+  const img = document.createElement('img');
+  img.src = src;
+  const btn = document.createElement('button');
+  btn.textContent = '✕';
+  btn.className = 'closeBtn';
+  btn.onclick = () => popup.remove();
+  popup.append(img, btn);
+  document.body.appendChild(popup);
+}
 
-    // Copy prompt text to clipboard
-    function copyToClipboard(text) {
-      navigator.clipboard.writeText(text).then(() => {
-        alert("Prompt copied to clipboard!");
-      });
-    }
+function addToHistory(prompt) {
+  const li = document.createElement('li');
+  li.textContent = prompt;
+  historyList.prepend(li);
+}
 
-    // Download image by fetching blob and triggering download
-    function downloadImage(url, index) {
-      fetch(url)
-        .then((res) => res.blob())
-        .then((blob) => {
-          const a = document.createElement("a");
-          a.href = URL.createObjectURL(blob);
-          a.download = `artvandalai_image_${index + 1}.png`;
-          document.body.appendChild(a);
-          a.click();
-          a.remove();
-        })
-        .catch(() => alert("Failed to download image."));
-    }
+function clearHistory() {
+  historyList.innerHTML = '';
+}
 
-    // Clear image container and reset grid class
-    function clearImages() {
-      imagesContainer.innerHTML = "";
-      imagesContainer.className = "grid";
-    }
+async function generateImages() {
+  const count = parseInt(imageCountSelect.value);
+  const basePrompt = buildPrompt();
+  if (!basePrompt) return alert('Please enter a prompt');
 
-    // Show popup with large image and close button
-    function showPopup(src) {
-      const popup = document.createElement("div");
-      popup.className = "popup";
-      const img = document.createElement("img");
-      img.src = src;
-      const btn = document.createElement("button");
-      btn.textContent = "✕";
-      btn.className = "closeBtn";
-      btn.onclick = () => popup.remove();
-      popup.append(img, btn);
-      document.body.appendChild(popup);
-    }
+  clearImages();
+  addToHistory(basePrompt);
+  imagesContainer.classList.add(`grid-${count}`);
+  generateBtn.disabled = true;
 
-    // Add prompt to history list (newest on top)
-    function addToHistory(prompt) {
-      const li = document.createElement("li");
-      li.textContent = prompt;
-      historyList.prepend(li);
-    }
+  const cardRefs = [];
 
-    // Clear prompt history UI
-    function clearHistory() {
-      historyList.innerHTML = "";
-    }
+  for (let i = 0; i < count; i++) {
+    const card = document.createElement('div');
+    card.className = 'imageCard';
 
-    clearHistoryBtn.addEventListener("click", clearHistory);
+    const statusText = document.createElement('div');
+    statusText.className = 'statusText';
+    const initialMsg = getRandomMessage();
+    statusText.textContent = initialMsg;
 
-    // Main generate images async function
-    async function generateImages() {
-      const count = parseInt(imageCountSelect.value);
-      const basePrompt = buildPrompt();
-      if (!basePrompt) {
-        alert("Please enter a prompt.");
-        return;
-      }
+    card.appendChild(statusText);
+    imagesContainer.appendChild(card);
 
-      clearImages();
-      addToHistory(basePrompt);
-      imagesContainer.classList.add(`grid-${count}`);
-      generateBtn.disabled = true;
+    cardRefs.push({ card, statusText, prevMsg: initialMsg });
+  }
 
-      const cardRefs = [];
+  for (let i = 0; i < count; i++) {
+    const { card, statusText } = cardRefs[i];
+    let prev = cardRefs[i].prevMsg;
+    const interval = setInterval(() => {
+      const msg = getRandomMessage(prev);
+      statusText.textContent = msg;
+      prev = msg;
+    }, 1200);
 
-      // Create placeholders with initial rotating messages
-      for (let i = 0; i < count; i++) {
-        const card = document.createElement("div");
-        card.className = "imageCard";
+    const uniquePrompt = `${basePrompt}, seed-${i}-${Date.now()}`;
+    const url = generateImageURL(uniquePrompt, sizeSelect.value);
 
-        const statusText = document.createElement("div");
-        statusText.className = "statusText";
-        const initialMsg = getRandomMessage();
-        statusText.textContent = initialMsg;
+    const img = new Image();
+    img.alt = `Generated image ${i + 1}`;
+    img.onload = () => {
+      clearInterval(interval);
+      card.innerHTML = '';
+      card.appendChild(img);
+      img.onclick = () => showPopup(img.src);
 
-        card.appendChild(statusText);
-        imagesContainer.appendChild(card);
+      const actions = document.createElement('div');
+      actions.className = 'imageActions';
 
-        cardRefs.push({ card, statusText, prevMsg: initialMsg });
-      }
+      const dlBtn = document.createElement('button');
+      dlBtn.textContent = 'Download';
+      dlBtn.onclick = () => downloadImage(img.src, i);
 
-      // Load each image sequentially with per-card rotating messages
-      for (let i = 0; i < count; i++) {
-        const { card, statusText } = cardRefs[i];
-        let prev = cardRefs[i].prevMsg;
-        const interval = setInterval(() => {
-          const msg = getRandomMessage(prev);
-          statusText.textContent = msg;
-          prev = msg;
-        }, 1200);
+      const cpBtn = document.createElement('button');
+      cpBtn.textContent = 'Copy Prompt';
+      cpBtn.onclick = () => copyToClipboard(basePrompt);
 
-        // Append a seed for variation on pollinations prompt only
-        let promptForImage = basePrompt;
-        if (sizeSelect.value === "1:1") {
-          promptForImage += `, seed-${i}-${Date.now()}`;
-        }
+      actions.append(dlBtn, cpBtn);
+      card.appendChild(actions);
+    };
+    img.onerror = () => {
+      clearInterval(interval);
+      statusText.textContent = "Failed to load image 😞";
+    };
 
-        const url = getImageURL(promptForImage, sizeSelect.value);
+    img.src = url;
+    await new Promise(r => setTimeout(r, 350));
+  }
 
-        const img = new Image();
-        img.alt = `Generated image ${i + 1}`;
-        img.onload = () => {
-          clearInterval(interval);
-          card.innerHTML = "";
-          card.appendChild(img);
-          img.onclick = () => showPopup(img.src);
+  generateBtn.disabled = false;
+}
 
-          // Actions container with Download + Copy prompt buttons
-          const actions = document.createElement("div");
-          actions.className = "imageActions";
+generateBtn.addEventListener('click', generateImages);
 
-          const dlBtn = document.createElement("button");
-          dlBtn.textContent = "Download";
-          dlBtn.onclick = () => downloadImage(img.src, i);
-
-          const cpBtn = document.createElement("button");
-          cpBtn.textContent = "Copy Prompt";
-          cpBtn.onclick = () => copyToClipboard(basePrompt);
-
-          actions.append(dlBtn, cpBtn);
-          card.appendChild(actions);
-        };
-        img.onerror = () => {
-          clearInterval(interval);
-          statusText.textContent = "Failed to load image 😞";
-        };
-
-        // Start image load
-        img.src = url;
-
-        // Small delay between image loads to avoid overload
-        await new Promise((r) => setTimeout(r, 350));
-      }
-
-      generateBtn.disabled = false;
-    }
-
-    generateBtn.addEventListener("click", generateImages);
-
-    // Optional: persist prompt history in localStorage (nice to add)
-    // Not added now, can be added later if you want
   </script>
 </body>
 </html>
