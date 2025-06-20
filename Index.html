@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -6,26 +7,35 @@
   <style>
     body {
       font-family: sans-serif;
-      background: #f4f4f4;
-      color: #333;
+      background: #121212;
+      color: #f4f4f4;
       padding: 1rem;
       transition: background 0.3s, color 0.3s;
     }
-    body.dark {
-      background: #121212;
-      color: #f4f4f4;
+    body.light {
+      background: #f4f4f4;
+      color: #333;
     }
+
     .toggleTheme {
       position: fixed;
       top: 1rem;
       right: 1rem;
       background: none;
       border: none;
-      font-size: 1.5rem;
+      font-size: 1.2rem;
       cursor: pointer;
       color: inherit;
-      z-index: 1000;
+      z-index: 9999;
+      padding: 0.3rem;
+      border-radius: 50%;
+      transition: background 0.2s;
     }
+
+    .toggleTheme:hover {
+      background: rgba(255,255,255,0.1);
+    }
+
     .container {
       max-width: 900px;
       margin: auto;
@@ -37,25 +47,31 @@
       padding: 0.5rem;
       font-size: 1rem;
     }
-    button {
+    button:not(.toggleTheme) {
       background-color: #ff4081;
       color: white;
       border: none;
       cursor: pointer;
     }
-    button:hover {
+    button:not(.toggleTheme):hover {
       background-color: #e73370;
     }
+
     #imagesContainer {
       display: grid;
       gap: 1rem;
     }
     #imagesContainer.grid-1 { grid-template-columns: 1fr; }
-    #imagesContainer.grid-2 { grid-template-columns: repeat(2, 1fr); }
-    #imagesContainer.grid-3 { grid-template-columns: repeat(3, 1fr); }
-    #imagesContainer.grid-4 { grid-template-columns: repeat(2, 1fr); }
-    #imagesContainer.grid-5 { grid-template-columns: repeat(3, 1fr); }
-    #imagesContainer.grid-6 { grid-template-columns: repeat(3, 1fr); }
+    #imagesContainer.grid-2,
+    #imagesContainer.grid-4,
+    #imagesContainer.grid-6 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    #imagesContainer.grid-3,
+    #imagesContainer.grid-5 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
     .imageCard {
       background: white;
       padding: 0.5rem;
@@ -67,7 +83,6 @@
       width: 100%;
       height: 200px;
       object-fit: cover;
-      display: block;
       border-radius: 6px;
       cursor: pointer;
     }
@@ -84,6 +99,7 @@
       padding: 0.3rem 0.6rem;
       font-size: 0.85rem;
     }
+
     .popup {
       position: fixed;
       top: 0;
@@ -113,92 +129,97 @@
       height: 2rem;
       font-size: 1rem;
       line-height: 1.9rem;
-      text-align: center;
       cursor: pointer;
     }
+
+    #promptHistory {
+      margin-top: 2rem;
+      padding: 1rem;
+      background: #222;
+      border-radius: 6px;
+    }
+    #promptHistory.light {
+      background: #eee;
+      color: #333;
+    }
+
     footer {
       margin-top: 3rem;
       text-align: center;
       font-size: 0.9rem;
       opacity: 0.6;
     }
-    #promptHistory {
-      margin-top: 2rem;
-      padding: 1rem;
-      background: #eee;
-      border-radius: 6px;
-    }
   </style>
 </head>
-<body>
-  <button class="toggleTheme" title="Toggle Dark Mode" onclick="document.body.classList.toggle('dark')">🌙</button>
+<body class="dark">
+  <button class="toggleTheme" title="Toggle Dark Mode">🌙</button>
   <div class="container">
-    <h1>ArtVandalAI</h1>
-    <p>Creative Chaos, Crafted by AI</p><label>Prompt:</label>
-<textarea id="promptInput" placeholder="e.g., A futuristic city in sunset lighting"></textarea>
+    <h1>Art-Vandal-AI </h1>
+    <p>Creative Chaos, Crafted by AI</p>
 
-<label>Negative Prompt (optional):</label>
-<textarea id="negativePromptInput" placeholder="e.g., blur, dark, low quality"></textarea>
+    <label>Prompt:</label>
+    <textarea id="promptInput" placeholder="e.g., A futuristic city in sunset lighting"></textarea>
 
-<label>Number of Images:</label>
-<select id="imageCount">
-  <option value="1">1</option>
-  <option value="2" selected>2</option>
-  <option value="3">3</option>
-  <option value="4">4</option>
-  <option value="5">5</option>
-  <option value="6">6</option>
-</select>
+    <label>Negative Prompt (optional):</label>
+    <textarea id="negativePromptInput" placeholder="e.g., blur, dark, low quality"></textarea>
 
-<label>Style:</label>
-<select id="styleSelect">
-  <option value="">-- optional --</option>
-  <option value="anime">Anime</option>
-  <option value="photorealistic">Photorealistic</option>
-  <option value="hyper realistic photograph">Hyper Realistic Photograph</option>
-  <option value="macro photography">Macro Photography</option>
-  <option value="studio ghibli style">Studio Ghibli Style</option>
-  <option value="watercolor painting">Watercolor Painting</option>
-  <option value="oil painting">Oil Painting</option>
-  <option value="digital art">Digital Art</option>
-  <option value="concept art">Concept Art</option>
-  <option value="pixel art">Pixel Art</option>
-  <option value="fantasy">Fantasy</option>
-  <option value="3d render">3D Render</option>
-  <option value="cyberpunk">Cyberpunk</option>
-  <option value="steampunk">Steampunk</option>
-  <option value="gothic">Gothic</option>
-  <option value="surrealism">Surrealism</option>
-  <option value="vaporwave">Vaporwave</option>
-</select>
+    <label>Number of Images:</label>
+    <select id="imageCount">
+      <option value="1">1</option>
+      <option value="2" selected>2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+    </select>
 
-<label>Aspect Ratio:</label>
-<select id="sizeSelect">
-  <option value="1:1">Square (1:1)</option>
-  <option value="4:5">Portrait (4:5)</option>
-  <option value="16:9">Landscape (16:9)</option>
-</select>
+    <label>Style:</label>
+    <select id="styleSelect">
+      <option value="">-- optional --</option>
+      <option value="anime">Anime</option>
+      <option value="photorealistic">Photorealistic</option>
+      <option value="watercolor painting">Watercolor Painting</option>
+      <option value="cyberpunk">Cyberpunk</option>
+      <option value="studio ghibli">Studio Ghibli</option>
+      <option value="hyper realistic photograph">Hyper Realistic Photograph</option>
+      <option value="macro photography">Macro Photography</option>
+    </select>
 
-<button id="generateBtn">Generate</button>
-<div id="imagesContainer"></div>
+    <label>Aspect Ratio:</label>
+    <select id="sizeSelect">
+      <option value="1:1">Square (1:1)</option>
+      <option value="4:5">Portrait (4:5)</option>
+      <option value="16:9">Landscape (16:9)</option>
+    </select>
 
-<div id="promptHistory">
-  <h3>Prompt History</h3>
-  <ul id="historyList"></ul>
-  <button onclick="clearHistory()">Clear History</button>
-</div>
+    <button id="generateBtn">Generate</button>
+    <div id="imagesContainer"></div>
 
-  </div>  <footer>
-    Made with ☕ by Lenny Rajan
-  </footer>  <script>
-    const promptInput = document.getElementById('promptInput');
-    const negativePromptInput = document.getElementById('negativePromptInput');
-    const imageCountSelect = document.getElementById('imageCount');
-    const styleSelect = document.getElementById('styleSelect');
-    const sizeSelect = document.getElementById('sizeSelect');
-    const generateBtn = document.getElementById('generateBtn');
-    const imagesContainer = document.getElementById('imagesContainer');
-    const historyList = document.getElementById('historyList');
+    <div id="promptHistory">
+      <h3>Prompt History</h3>
+      <ul id="historyList"></ul>
+      <button onclick="document.getElementById('historyList').innerHTML=''">Clear History</button>
+    </div>
+  </div>
+
+  <footer>Made with ☕ by Lenny Rajan</footer>
+
+  <script>
+    const themeBtn = document.querySelector(".toggleTheme");
+    themeBtn.onclick = () => {
+      document.body.classList.toggle("dark");
+      document.body.classList.toggle("light");
+      document.getElementById("promptHistory").classList.toggle("light");
+    };
+
+    const promptInput = document.getElementById("promptInput");
+    const negativePromptInput = document.getElementById("negativePromptInput");
+    const imageCountSelect = document.getElementById("imageCount");
+    const styleSelect = document.getElementById("styleSelect");
+    const sizeSelect = document.getElementById("sizeSelect");
+    const generateBtn = document.getElementById("generateBtn");
+    const imagesContainer = document.getElementById("imagesContainer");
+    const historyList = document.getElementById("historyList");
 
     const statusMessages = [
       "Brewing...", "Crafting...", "Imagining...", "Rendering...",
@@ -225,12 +246,12 @@
     }
 
     function copyToClipboard(text) {
-      navigator.clipboard.writeText(text).then(() => alert('Prompt copied'));
+      navigator.clipboard.writeText(text).then(() => alert("Prompt copied"));
     }
 
     function downloadImage(url, index) {
       fetch(url).then(res => res.blob()).then(blob => {
-        const a = document.createElement('a');
+        const a = document.createElement("a");
         a.href = URL.createObjectURL(blob);
         a.download = `artvandalai_image_${index + 1}.png`;
         document.body.appendChild(a);
@@ -257,28 +278,17 @@
       document.body.appendChild(popup);
     }
 
-    function addToHistory(prompt) {
-      const li = document.createElement('li');
-      li.textContent = prompt;
-      historyList.prepend(li);
-    }
-
-    function clearHistory() {
-      historyList.innerHTML = '';
-    }
-
     async function generateImages() {
       const count = parseInt(imageCountSelect.value);
       const basePrompt = buildPrompt();
       if (!basePrompt) return alert('Please enter a prompt');
 
+      const aspect = sizeSelect.value;
       clearImages();
-      addToHistory(basePrompt);
       generateBtn.disabled = true;
       imagesContainer.classList.add(`grid-${count}`);
 
       const cardRefs = [];
-
       for (let i = 0; i < count; i++) {
         const card = document.createElement('div');
         card.className = 'imageCard';
@@ -290,9 +300,13 @@
 
         card.appendChild(statusText);
         imagesContainer.appendChild(card);
-
         cardRefs.push({ card, statusText, prevMsg: initialMsg });
       }
+
+      const fullPrompt = `${basePrompt}, ${aspect} aspect ratio`;
+      const li = document.createElement('li');
+      li.textContent = fullPrompt;
+      historyList.prepend(li);
 
       for (let i = 0; i < count; i++) {
         const { card, statusText } = cardRefs[i];
@@ -303,8 +317,8 @@
           prev = msg;
         }, 1200);
 
-        const uniquePrompt = `${basePrompt}, unique ${Math.random().toString(36).substring(7)}`;
-        const url = generateImageURL(uniquePrompt, sizeSelect.value);
+        const uniquePrompt = `${fullPrompt}, seed-${i}-${Date.now()}`;
+        const url = generateImageURL(uniquePrompt, aspect);
 
         const img = new Image();
         img.alt = `Generated image ${i + 1}`;
@@ -334,12 +348,13 @@
         };
 
         img.src = url;
-        await new Promise(r => setTimeout(r, 350));
+        await new Promise(r => setTimeout(r, 300));
       }
 
       generateBtn.disabled = false;
     }
 
     generateBtn.addEventListener('click', generateImages);
-  </script></body>
+  </script>
+</body>
 </html>
