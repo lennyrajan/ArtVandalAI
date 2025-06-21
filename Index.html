@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -8,7 +7,7 @@
   <meta name="author" content="Lenny Rajan" />
   <meta name="robots" content="index, follow" />
   <meta name="google-site-verification" content="AOiTGI_SnsG9S2IfTSFuHc4RVun0iFu8mgcWKqJVYqc" />
-  <title>ArtVandalAI — Creative Chaos, Crafted by AI</title>
+  <title>ArtVandalAI — Unlimited Creative Chaos, Crafted by AI</title>
   <style>
     body {
       font-family: sans-serif;
@@ -20,191 +19,204 @@
     body.light {
       background: #f4f4f4;
       color: #333;
-    }
+    }.toggleTheme {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.6rem;
+  line-height: 1;
+  padding: 0;
+  width: 2rem;
+  height: 2rem;
+  cursor: pointer;
+  color: inherit;
+  z-index: 10000;
+  user-select: none;
+}
+.toggleTheme:focus {
+  outline: 2px solid #4CAF50;
+  outline-offset: 2px;
+}
 
-    .toggleTheme {
-      position: fixed;
-      top: 1rem;
-      right: 1rem;
-      background: none;
-      border: none;
-      font-size: 1.6rem;
-      line-height: 1;
-      padding: 0;
-      width: 2rem;
-      height: 2rem;
-      cursor: pointer;
-      color: inherit;
-      z-index: 9999;
-      user-select: none;
-    }
-    .toggleTheme:focus {
-      outline: 2px solid #ff4081;
-      outline-offset: 2px;
-    }
+#clock {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  font-size: 0.85rem;
+  opacity: 0.7;
+  z-index: 9999;
+  font-family: monospace;
+}
 
-    .container {
-      max-width: 900px;
-      margin: auto;
-      padding-top: 3rem;
-    }
-    textarea, select, button {
-      width: 100%;
-      margin-bottom: 1rem;
-      padding: 0.5rem;
-      font-size: 1rem;
-    }
-    button {
-      background-color: #ff4081;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #e73370;
-    }
-    #imagesContainer {
-      display: grid;
-      gap: 1rem;
-      grid-template-columns: repeat(2, 1fr);
-    }
-    .imageCard {
-      background: white;
-      padding: 0.5rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      text-align: center;
-    }
-    body:not(.light) .imageCard {
-      background: #1e1e1e;
-    }
-    .imageCard img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      display: block;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    .statusText {
-      font-style: italic;
-      color: #888;
-      min-height: 200px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .imageActions button {
-      margin: 0.25rem;
-      padding: 0.3rem 0.6rem;
-      font-size: 0.85rem;
-    }
-    .popup {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.8);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 10000;
-    }
-    .popup img {
-      max-width: 90vw;
-      max-height: 90vh;
-      border-radius: 8px;
-    }
-    .popup .closeBtn {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      background: red;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 2rem;
-      height: 2rem;
-      font-size: 1rem;
-      line-height: 1.9rem;
-      text-align: center;
-      cursor: pointer;
-    }
-    #promptHistory {
-      margin-top: 2rem;
-      padding: 1rem;
-      background: #222;
-      border-radius: 6px;
-    }
-    .light #promptHistory {
-      background: #eee;
-    }
-    footer {
-      margin-top: 3rem;
-      text-align: center;
-      font-size: 0.9rem;
-      opacity: 0.6;
-    }
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding-top: 3rem;
+}
+textarea, select, button {
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #3e8e41;
+}
+#imagesContainer {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(2, 1fr);
+}
+.imageCard {
+  background: white;
+  padding: 0.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  text-align: center;
+}
+body:not(.light) .imageCard {
+  background: #1e1e1e;
+}
+.imageCard img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.statusText {
+  font-style: italic;
+  color: #888;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.imageActions button {
+  margin: 0.25rem;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.85rem;
+}
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+.popup img {
+  max-width: 90vw;
+  max-height: 90vh;
+  border-radius: 8px;
+}
+.popup .closeBtn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: red;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  font-size: 1rem;
+  line-height: 1.9rem;
+  text-align: center;
+  cursor: pointer;
+}
+#promptHistory {
+  margin-top: 2rem;
+  padding: 1rem;
+  background: #222;
+  border-radius: 6px;
+}
+.light #promptHistory {
+  background: #eee;
+}
+footer {
+  margin-top: 3rem;
+  text-align: center;
+  font-size: 0.9rem;
+  opacity: 0.6;
+}
+
   </style>
 </head>
 <body>
-<button class="toggleTheme" title="Toggle Dark Mode" aria-label="Toggle Dark Mode" onclick="toggleTheme()">🌗</button>
+  <div id="clock"></div>
+  <button class="toggleTheme" title="Toggle Dark Mode" aria-label="Toggle Dark Mode" onclick="toggleTheme()">🌗</button>
   <div class="container">
-    <h1>ArtVandalAI</h1>
-    <p>Creative Chaos, Crafted by AI. Unlimited image generation.</p>
+    <h1>Art-Vandal-AI</h1>
+    <p>Creative Chaos, Crafted by AI. Unlimited image generation.</p><label>Prompt:</label>
+<textarea id="promptInput" placeholder="e.g., A futuristic city in sunset lighting"></textarea>
 
-    <label>Prompt:</label>
-    <textarea id="promptInput" placeholder="e.g., A futuristic city in sunset lighting"></textarea>
+<label>Negative Prompt (optional):</label>
+<textarea id="negativePromptInput" placeholder="e.g., blur, dark, low quality"></textarea>
 
-    <label>Negative Prompt (optional):</label>
-    <textarea id="negativePromptInput" placeholder="e.g., blur, dark, low quality"></textarea>
+<label>Number of Images:</label>
+<select id="imageCount">
+  <option value="1">1</option>
+  <option value="2" selected>2</option>
+  <option value="3">3</option>
+  <option value="4">4</option>
+  <option value="5">5</option>
+  <option value="6">6</option>
+</select>
 
-    <label>Number of Images:</label>
-    <select id="imageCount">
-      <option value="1">1</option>
-      <option value="2" selected>2</option>
-      <option value="3">3</option>
-      <option value="4">4</option>
-      <option value="5">5</option>
-      <option value="6">6</option>
-    </select>
+<label>Style:</label>
+<select id="styleSelect">
+  <option value="">-- optional --</option>
+  <option value="anime">Anime</option>
+  <option value="photorealistic">Photorealistic</option>
+  <option value="watercolor painting">Watercolor Painting</option>
+  <option value="cyberpunk">Cyberpunk</option>
+  <option value="studio ghibli">Studio Ghibli</option>
+  <option value="hyper realistic photograph">Hyper Realistic Photograph</option>
+  <option value="macro photography">Macro Photography</option>
+</select>
 
-    <label>Style:</label>
-    <select id="styleSelect">
-      <option value="">-- optional --</option>
-      <option value="anime">Anime</option>
-      <option value="photorealistic">Photorealistic</option>
-      <option value="watercolor painting">Watercolor Painting</option>
-      <option value="cyberpunk">Cyberpunk</option>
-      <option value="studio ghibli">Studio Ghibli</option>
-      <option value="hyper realistic photograph">Hyper Realistic Photograph</option>
-      <option value="macro photography">Macro Photography</option>
-    </select>
+<label>Aspect Ratio:</label>
+<select id="sizeSelect">
+  <option value="1:1">Square (1:1)</option>
+  <option value="4:5">Portrait (4:5)</option>
+  <option value="16:9">Landscape (16:9)</option>
+</select>
 
-    <label>Aspect Ratio:</label>
-    <select id="sizeSelect">
-      <option value="1:1">Square (1:1)</option>
-      <option value="4:5">Portrait (4:5)</option>
-      <option value="16:9">Landscape (16:9)</option>
-    </select>
+<button id="generateBtn">Generate</button>
+<div id="imagesContainer"></div>
 
-    <button id="generateBtn">Generate</button>
-    <div id="imagesContainer"></div>
+<div id="promptHistory">
+  <h3>Prompt History</h3>
+  <ul id="historyList"></ul>
+  <button onclick="clearHistory()">Clear History</button>
+</div>
 
-    <div id="promptHistory">
-      <h3>Prompt History</h3>
-      <ul id="historyList"></ul>
-      <button onclick="clearHistory()">Clear History</button>
-    </div>
-  </div>
-
-  <footer>Made with ☕ by Lenny Rajan</footer>
-
-  <script>
+  </div>  <footer>Made with ☕ by Lenny Rajan</footer>  <script>
     function toggleTheme() {
       document.body.classList.toggle('light');
     }
+
+    function updateClock() {
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      document.getElementById('clock').textContent = timeStr;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
 
     const promptInput = document.getElementById('promptInput');
     const negativePromptInput = document.getElementById('negativePromptInput');
@@ -271,14 +283,28 @@
       document.body.appendChild(popup);
     }
 
+    function loadHistory() {
+      const saved = localStorage.getItem('promptHistory');
+      if (saved) {
+        JSON.parse(saved).forEach(p => addToHistory(p));
+      }
+    }
+
+    function saveHistory() {
+      const prompts = [...historyList.children].map(li => li.textContent);
+      localStorage.setItem('promptHistory', JSON.stringify(prompts));
+    }
+
     function addToHistory(prompt) {
       const li = document.createElement('li');
       li.textContent = prompt;
       historyList.prepend(li);
+      saveHistory();
     }
 
     function clearHistory() {
       historyList.innerHTML = '';
+      localStorage.removeItem('promptHistory');
     }
 
     async function generateImages() {
@@ -349,7 +375,7 @@
       generateBtn.disabled = false;
     }
 
+    loadHistory();
     generateBtn.addEventListener('click', generateImages);
-  </script>
-</body>
+  </script></body>
 </html>
