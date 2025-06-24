@@ -1,5 +1,4 @@
-<!DOCTYPE html><html lang="en">
-<head>
+<!DOCTYPE html><html lang="en"><head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="ArtVandalAI — Unlimited AI-generated art from your prompts. Just type and create!" />
@@ -19,152 +18,149 @@
     body.light {
       background: #f4f4f4;
       color: #333;
-    }.toggleTheme {
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-  background: none;
-  border: none;
-  font-size: 1.6rem;
-  line-height: 1;
-  padding: 0;
-  width: 2rem;
-  height: 2rem;
-  cursor: pointer;
-  color: inherit;
-  z-index: 10000;
-  user-select: none;
-}
-.toggleTheme:focus {
-  outline: 2px solid #4CAF50;
-  outline-offset: 2px;
-}
-
-#clock {
-  position: fixed;
-  top: 1rem;
-  left: 1rem;
-  font-size: 0.85rem;
-  opacity: 0.7;
-  z-index: 9999;
-  font-family: monospace;
-}
-
-.container {
-  max-width: 900px;
-  margin: auto;
-  padding-top: 3rem;
-}
-textarea, select, button {
-  width: 100%;
-  margin-bottom: 1rem;
-  padding: 0.5rem;
-  font-size: 1rem;
-}
-button {
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-button:hover {
-  background-color: #3e8e41;
-}
-#imagesContainer {
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(2, 1fr);
-}
-.imageCard {
-  background: white;
-  padding: 0.5rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  text-align: center;
-}
-body:not(.light) .imageCard {
-  background: #1e1e1e;
-}
-.imageCard img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  display: block;
-  border-radius: 6px;
-  cursor: pointer;
-}
-.statusText {
-  font-style: italic;
-  color: #888;
-  min-height: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.imageActions button {
-  margin: 0.25rem;
-  padding: 0.3rem 0.6rem;
-  font-size: 0.85rem;
-}
-.popup {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10000;
-}
-.popup img {
-  max-width: 90vw;
-  max-height: 90vh;
-  border-radius: 8px;
-}
-.popup .closeBtn {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  background: red;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 2rem;
-  height: 2rem;
-  font-size: 1rem;
-  line-height: 1.9rem;
-  text-align: center;
-  cursor: pointer;
-}
-#promptHistory {
-  margin-top: 2rem;
-  padding: 1rem;
-  background: #222;
-  border-radius: 6px;
-}
-.light #promptHistory {
-  background: #eee;
-}
-footer {
-  margin-top: 3rem;
-  text-align: center;
-  font-size: 0.9rem;
-  opacity: 0.6;
-}
-
+    }
+    .toggleTheme {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.6rem;
+      line-height: 1;
+      padding: 0;
+      width: 2rem;
+      height: 2rem;
+      cursor: pointer;
+      color: inherit;
+      z-index: 10000;
+      user-select: none;
+    }
+    .toggleTheme:focus {
+      outline: 2px solid #4CAF50;
+      outline-offset: 2px;
+    }
+    #clock {
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      font-size: 0.85rem;
+      opacity: 0.7;
+      z-index: 9999;
+      font-family: monospace;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding-top: 3rem;
+    }
+    textarea, select, button {
+      width: 100%;
+      margin-bottom: 1rem;
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #3e8e41;
+    }
+    #imagesContainer {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .imageCard {
+      background: white;
+      padding: 0.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    body:not(.light) .imageCard {
+      background: #1e1e1e;
+    }
+    .imageCard img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .statusText {
+      font-style: italic;
+      color: #888;
+      min-height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .imageActions button {
+      margin: 0.25rem;
+      padding: 0.3rem 0.6rem;
+      font-size: 0.85rem;
+    }
+    .popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+    }
+    .popup img {
+      max-width: 90vw;
+      max-height: 90vh;
+      border-radius: 8px;
+    }
+    .popup .closeBtn {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: red;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 2rem;
+      height: 2rem;
+      font-size: 1rem;
+      line-height: 1.9rem;
+      text-align: center;
+      cursor: pointer;
+    }
+    #promptHistory {
+      margin-top: 2rem;
+      padding: 1rem;
+      background: #222;
+      border-radius: 6px;
+    }
+    .light #promptHistory {
+      background: #eee;
+    }
+    footer {
+      margin-top: 3rem;
+      text-align: center;
+      font-size: 0.9rem;
+      opacity: 0.6;
+    }
   </style>
 </head>
 <body>
   <div id="clock"></div>
   <button class="toggleTheme" title="Toggle Dark Mode" aria-label="Toggle Dark Mode" onclick="toggleTheme()">🌗</button>
   <div class="container">
-    <h1>Art-Vandal-AI</h1>
-    <p>Creative Chaos, Crafted by AI. Unlimited image generation.</p><label>Prompt:</label>
-<textarea id="promptInput" placeholder="e.g., A futuristic city in sunset lighting"></textarea>
-
-<label>Negative Prompt (optional):</label>
+    <h1>ArtVandalAI</h1>
+    <p>Creative Chaos, Crafted by AI. Unlimited image generation.</p>
+    <label>Prompt:</label>
+    <textarea id="promptInput" placeholder="e.g., A futuristic city in sunset lighting"></textarea><label>Negative Prompt (optional):</label>
 <textarea id="negativePromptInput" placeholder="e.g., blur, dark, low quality"></textarea>
 
 <label>Number of Images:</label>
@@ -205,177 +201,204 @@ footer {
   <button onclick="clearHistory()">Clear History</button>
 </div>
 
-  </div>  <footer>Made with ☕ by Lenny Rajan</footer>  <script>
+  </div>
+  <footer>Made with ☕ by Lenny Rajan</footer>
+  <script>
     function toggleTheme() {
       document.body.classList.toggle('light');
-    }
+    }function updateClock() {
+  const now = new Date();
+  const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  document.getElementById('clock').textContent = timeStr;
+}
+setInterval(updateClock, 1000);
+updateClock();
 
-    function updateClock() {
-      const now = new Date();
-      const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-      document.getElementById('clock').textContent = timeStr;
-    }
-    setInterval(updateClock, 1000);
-    updateClock();
+const promptInput = document.getElementById('promptInput');
+const negativePromptInput = document.getElementById('negativePromptInput');
+const imageCountSelect = document.getElementById('imageCount');
+const styleSelect = document.getElementById('styleSelect');
+const sizeSelect = document.getElementById('sizeSelect');
+const generateBtn = document.getElementById('generateBtn');
+const imagesContainer = document.getElementById('imagesContainer');
+const historyList = document.getElementById('historyList');
 
-    const promptInput = document.getElementById('promptInput');
-    const negativePromptInput = document.getElementById('negativePromptInput');
-    const imageCountSelect = document.getElementById('imageCount');
-    const styleSelect = document.getElementById('styleSelect');
-    const sizeSelect = document.getElementById('sizeSelect');
-    const generateBtn = document.getElementById('generateBtn');
-    const imagesContainer = document.getElementById('imagesContainer');
-    const historyList = document.getElementById('historyList');
+const statusMessages = [
+  "Brewing...", "Crafting...", "Imagining...", "Rendering...",
+  "Composing...", "Processing...", "Dreaming up visuals...", "Picturing perfection..."
+];
 
-    const statusMessages = [
-      "Brewing...", "Crafting...", "Imagining...", "Rendering...",
-      "Composing...", "Processing...", "Dreaming up visuals...", "Picturing perfection..."
-    ];
+function getRandomMessage(prev = "") {
+  let msg;
+  do {
+    msg = statusMessages[Math.floor(Math.random() * statusMessages.length)];
+  } while (msg === prev);
+  return msg;
+}
 
-    function getRandomMessage(prev = "") {
-      let msg;
-      do {
-        msg = statusMessages[Math.floor(Math.random() * statusMessages.length)];
-      } while (msg === prev);
-      return msg;
-    }
+function buildPrompt() {
+  let prompt = promptInput.value.trim();
+  if (styleSelect.value) prompt += ", " + styleSelect.value;
+  if (negativePromptInput.value.trim()) prompt += ", negative prompt: " + negativePromptInput.value.trim();
+  return prompt;
+}
 
-    function buildPrompt() {
-      let prompt = promptInput.value.trim();
-      if (styleSelect.value) prompt += ", " + styleSelect.value;
-      if (negativePromptInput.value.trim()) prompt += ", negative prompt: " + negativePromptInput.value.trim();
-      return prompt;
-    }
+function generateImageURL(prompt, size) {
+  return `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt + ', ' + size + ' aspect ratio')}?rand=${Math.random()}`;
+}
 
-    function generateImageURL(prompt, size) {
-      return `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt + ', ' + size + ' aspect ratio')}?rand=${Math.random()}`;
-    }
+function copyToClipboard(text) {
+  navigator.clipboard.writeText(text).then(() => alert('Prompt copied'));
+}
 
-    function copyToClipboard(text) {
-      navigator.clipboard.writeText(text).then(() => alert('Prompt copied'));
-    }
+function downloadImage(url, index) {
+  fetch(url).then(res => res.blob()).then(blob => {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `artvandalai_image_${index + 1}.png`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  });
+}
 
-    function downloadImage(url, index) {
-      fetch(url).then(res => res.blob()).then(blob => {
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = `artvandalai_image_${index + 1}.png`;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-      });
-    }
+function clearImages() {
+  imagesContainer.innerHTML = '';
+}
 
-    function clearImages() {
-      imagesContainer.innerHTML = '';
-    }
+function showPopup(src) {
+  const popup = document.createElement('div');
+  popup.className = 'popup';
+  const img = document.createElement('img');
+  img.src = src;
+  const btn = document.createElement('button');
+  btn.textContent = '✕';
+  btn.className = 'closeBtn';
+  btn.onclick = () => popup.remove();
+  popup.append(img, btn);
+  document.body.appendChild(popup);
+}
 
-    function showPopup(src) {
-      const popup = document.createElement('div');
-      popup.className = 'popup';
-      const img = document.createElement('img');
-      img.src = src;
-      const btn = document.createElement('button');
-      btn.textContent = '✕';
-      btn.className = 'closeBtn';
-      btn.onclick = () => popup.remove();
-      popup.append(img, btn);
-      document.body.appendChild(popup);
-    }
+function loadHistory() {
+  const saved = localStorage.getItem('promptHistory');
+  if (saved) {
+    JSON.parse(saved).forEach(p => addToHistory(p));
+  }
+}
 
-    function loadHistory() {
-      const saved = localStorage.getItem('promptHistory');
-      if (saved) {
-        JSON.parse(saved).forEach(p => addToHistory(p));
-      }
-    }
+function saveHistory() {
+  const prompts = [...historyList.children].map(li => li.textContent);
+  localStorage.setItem('promptHistory', JSON.stringify(prompts));
+}
 
-    function saveHistory() {
-      const prompts = [...historyList.children].map(li => li.textContent);
-      localStorage.setItem('promptHistory', JSON.stringify(prompts));
-    }
+function addToHistory(prompt) {
+  const li = document.createElement('li');
+  li.textContent = prompt;
+  historyList.prepend(li);
+  saveHistory();
+}
 
-    function addToHistory(prompt) {
-      const li = document.createElement('li');
-      li.textContent = prompt;
-      historyList.prepend(li);
-      saveHistory();
-    }
+function clearHistory() {
+  historyList.innerHTML = '';
+  localStorage.removeItem('promptHistory');
+}
 
-    function clearHistory() {
-      historyList.innerHTML = '';
-      localStorage.removeItem('promptHistory');
-    }
+async function logPromptToSheet(prompt, negativePrompt, style) {
+  const ip = await fetch("https://api.ipify.org?format=json")
+    .then(res => res.json())
+    .then(data => data.ip)
+    .catch(() => "Unknown");
 
-    async function generateImages() {
-      const count = parseInt(imageCountSelect.value);
-      const basePrompt = buildPrompt();
-      if (!basePrompt) return alert('Please enter a prompt');
+  const payload = { prompt, negativePrompt, style, ip };
 
-      clearImages();
-      addToHistory(basePrompt);
-      generateBtn.disabled = true;
+  try {
+    await fetch("https://script.google.com/macros/s/AKfycbwsN9VjB4jvi1fRSqxZFDhrLf4ABoYnmQFJZHYrENGygxgwqZ4t6nMm7h2N-LWR3kRh3g/exec", {
+      method: "POST",
+      body: JSON.stringify(payload),
+      headers: { "Content-Type": "application/json" }
+    });
+  } catch (err) {
+    console.error("Logging failed:", err);
+  }
+}
 
-      const cardRefs = [];
-      for (let i = 0; i < count; i++) {
-        const card = document.createElement('div');
-        card.className = 'imageCard';
+async function generateImages() {
+  const count = parseInt(imageCountSelect.value);
+  const basePrompt = buildPrompt();
+  if (!basePrompt) return alert('Please enter a prompt');
 
-        const statusText = document.createElement('div');
-        statusText.className = 'statusText';
-        const initialMsg = getRandomMessage();
-        statusText.textContent = initialMsg;
+  clearImages();
+  addToHistory(basePrompt);
+  logPromptToSheet(
+    promptInput.value.trim(),
+    negativePromptInput.value.trim(),
+    styleSelect.value
+  );
 
-        card.appendChild(statusText);
-        imagesContainer.appendChild(card);
-        cardRefs.push({ card, statusText, prevMsg: initialMsg });
-      }
+  generateBtn.disabled = true;
 
-      for (let i = 0; i < count; i++) {
-        const { card, statusText } = cardRefs[i];
-        let prev = cardRefs[i].prevMsg;
-        const interval = setInterval(() => {
-          const msg = getRandomMessage(prev);
-          statusText.textContent = msg;
-          prev = msg;
-        }, 1200);
+  const cardRefs = [];
+  for (let i = 0; i < count; i++) {
+    const card = document.createElement('div');
+    card.className = 'imageCard';
 
-        const uniquePrompt = `${basePrompt}, unique-${Math.random().toString(36).substring(7)}`;
-        const url = generateImageURL(uniquePrompt, sizeSelect.value);
+    const statusText = document.createElement('div');
+    statusText.className = 'statusText';
+    const initialMsg = getRandomMessage();
+    statusText.textContent = initialMsg;
 
-        const img = new Image();
-        img.alt = `Generated image ${i + 1}`;
-        img.onload = () => {
-          clearInterval(interval);
-          card.innerHTML = '';
-          card.appendChild(img);
-          img.onclick = () => showPopup(img.src);
+    card.appendChild(statusText);
+    imagesContainer.appendChild(card);
+    cardRefs.push({ card, statusText, prevMsg: initialMsg });
+  }
 
-          const actions = document.createElement('div');
-          actions.className = 'imageActions';
+  for (let i = 0; i < count; i++) {
+    const { card, statusText } = cardRefs[i];
+    let prev = cardRefs[i].prevMsg;
+    const interval = setInterval(() => {
+      const msg = getRandomMessage(prev);
+      statusText.textContent = msg;
+      prev = msg;
+    }, 1200);
 
-          const dlBtn = document.createElement('button');
-          dlBtn.textContent = 'Download';
-          dlBtn.onclick = () => downloadImage(img.src, i);
+    const uniquePrompt = `${basePrompt}, unique-${Math.random().toString(36).substring(7)}`;
+    const url = generateImageURL(uniquePrompt, sizeSelect.value);
 
-          const cpBtn = document.createElement('button');
-          cpBtn.textContent = 'Copy Prompt';
-          cpBtn.onclick = () => copyToClipboard(basePrompt);
+    const img = new Image();
+    img.alt = `Generated image ${i + 1}`;
+    img.onload = () => {
+      clearInterval(interval);
+      card.innerHTML = '';
+      card.appendChild(img);
+      img.onclick = () => showPopup(img.src);
 
-          actions.append(dlBtn, cpBtn);
-          card.appendChild(actions);
-        };
-        img.onerror = () => {
-          clearInterval(interval);
-          statusText.textContent = "Failed to load image 😞";
-        };
-        img.src = url;
-        await new Promise(r => setTimeout(r, 350));
-      }
-      generateBtn.disabled = false;
-    }
+      const actions = document.createElement('div');
+      actions.className = 'imageActions';
 
-    loadHistory();
-    generateBtn.addEventListener('click', generateImages);
-  </script></body>
+      const dlBtn = document.createElement('button');
+      dlBtn.textContent = 'Download';
+      dlBtn.onclick = () => downloadImage(img.src, i);
+
+      const cpBtn = document.createElement('button');
+      cpBtn.textContent = 'Copy Prompt';
+      cpBtn.onclick = () => copyToClipboard(basePrompt);
+
+      actions.append(dlBtn, cpBtn);
+      card.appendChild(actions);
+    };
+    img.onerror = () => {
+      clearInterval(interval);
+      statusText.textContent = "Failed to load image 😞";
+    };
+    img.src = url;
+    await new Promise(r => setTimeout(r, 350));
+  }
+  generateBtn.disabled = false;
+}
+
+loadHistory();
+generateBtn.addEventListener('click', generateImages);
+
+  </script>
+</body>
 </html>
