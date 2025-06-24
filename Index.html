@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -9,6 +10,7 @@
   <meta name="google-site-verification" content="AOiTGI_SnsG9S2IfTSFuHc4RVun0iFu8mgcWKqJVYqc" />
   <title>ArtVandalAI — Unlimited Creative Chaos, Crafted by AI</title>
   <style>
+    /* Same CSS you had before */
     body {
       font-family: sans-serif;
       background: #121212;
@@ -16,127 +18,26 @@
       padding: 1rem;
       transition: background 0.3s, color 0.3s;
     }
-    body.light {
-      background: #f4f4f4;
-      color: #333;
-    }
-    .toggleTheme {
-      position: fixed;
-      top: 1rem;
-      right: 1rem;
-      background: none;
-      border: none;
-      font-size: 1.6rem;
-      width: 2rem;
-      height: 2rem;
-      cursor: pointer;
-      color: inherit;
-      z-index: 10000;
-    }
-    #clock {
-      position: fixed;
-      top: 1rem;
-      left: 1rem;
-      font-size: 0.85rem;
-      opacity: 0.7;
-      z-index: 9999;
-      font-family: monospace;
-    }
-    .container {
-      max-width: 900px;
-      margin: auto;
-      padding-top: 3rem;
-    }
-    textarea, select, button {
-      width: 100%;
-      margin-bottom: 1rem;
-      padding: 0.5rem;
-      font-size: 1rem;
-    }
-    button {
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #3e8e41;
-    }
-    #imagesContainer {
-      display: grid;
-      gap: 1rem;
-      grid-template-columns: repeat(2, 1fr);
-    }
-    .imageCard {
-      background: white;
-      padding: 0.5rem;
-      border-radius: 8px;
-      text-align: center;
-    }
-    body:not(.light) .imageCard {
-      background: #1e1e1e;
-    }
-    .imageCard img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    .statusText {
-      font-style: italic;
-      color: #888;
-      min-height: 200px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .popup {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.8);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 10000;
-    }
-    .popup img {
-      max-width: 90vw;
-      max-height: 90vh;
-      border-radius: 8px;
-    }
-    .popup .closeBtn {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      background: red;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 2rem;
-      height: 2rem;
-      font-size: 1rem;
-      line-height: 1.9rem;
-      cursor: pointer;
-    }
-    #promptHistory {
-      margin-top: 2rem;
-      padding: 1rem;
-      background: #222;
-      border-radius: 6px;
-    }
-    .light #promptHistory {
-      background: #eee;
-    }
-    footer {
-      margin-top: 3rem;
-      text-align: center;
-      font-size: 0.9rem;
-      opacity: 0.6;
-    }
+    body.light { background: #f4f4f4; color: #333; }
+    .toggleTheme { position: fixed; top: 1rem; right: 1rem; background: none; border: none; font-size: 1.6rem; width: 2rem; height: 2rem; cursor: pointer; color: inherit; z-index: 10000; user-select: none; }
+    .toggleTheme:focus { outline: 2px solid #4CAF50; outline-offset: 2px; }
+    #clock { position: fixed; top: 1rem; left: 1rem; font-size: 0.85rem; opacity: 0.7; z-index: 9999; font-family: monospace; }
+    .container { max-width: 900px; margin: auto; padding-top: 3rem; }
+    textarea, select, button { width: 100%; margin-bottom: 1rem; padding: 0.5rem; font-size: 1rem; }
+    button { background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+    button:hover { background-color: #3e8e41; }
+    #imagesContainer { display: grid; gap: 1rem; grid-template-columns: repeat(2, 1fr); }
+    .imageCard { background: white; padding: 0.5rem; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; }
+    body:not(.light) .imageCard { background: #1e1e1e; }
+    .imageCard img { width: 100%; height: 200px; object-fit: cover; border-radius: 6px; cursor: pointer; }
+    .statusText { font-style: italic; color: #888; min-height: 200px; display: flex; align-items: center; justify-content: center; }
+    .imageActions button { margin: 0.25rem; padding: 0.3rem 0.6rem; font-size: 0.85rem; }
+    .popup { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.8); display: flex; align-items: center; justify-content: center; z-index: 10000; }
+    .popup img { max-width: 90vw; max-height: 90vh; border-radius: 8px; }
+    .popup .closeBtn { position: absolute; top: 1rem; right: 1rem; background: red; color: white; border: none; border-radius: 50%; width: 2rem; height: 2rem; font-size: 1rem; line-height: 1.9rem; text-align: center; cursor: pointer; }
+    #promptHistory { margin-top: 2rem; padding: 1rem; background: #222; border-radius: 6px; }
+    .light #promptHistory { background: #eee; }
+    footer { margin-top: 3rem; text-align: center; font-size: 0.9rem; opacity: 0.6; }
   </style>
 </head>
 <body>
@@ -144,58 +45,64 @@
   <button class="toggleTheme" onclick="toggleTheme()">🌗</button>
   <div class="container">
     <h1>Art-Vandal-AI</h1>
-    <p>Creative Chaos, Crafted by AI. Unlimited image generation.</p><label>Prompt:</label>
-<textarea id="promptInput"></textarea>
-<label>Negative Prompt (optional):</label>
-<textarea id="negativePromptInput"></textarea>
-<label>Number of Images:</label>
-<select id="imageCount">
-  <option value="1">1</option>
-  <option value="2" selected>2</option>
-  <option value="3">3</option>
-  <option value="4">4</option>
-  <option value="5">5</option>
-  <option value="6">6</option>
-</select>
-<label>Style:</label>
-<select id="styleSelect">
-  <option value="">-- optional --</option>
-  <option value="anime">Anime</option>
-  <option value="photorealistic">Photorealistic</option>
-  <option value="watercolor painting">Watercolor Painting</option>
-  <option value="cyberpunk">Cyberpunk</option>
-  <option value="studio ghibli">Studio Ghibli</option>
-  <option value="hyper realistic photograph">Hyper Realistic Photograph</option>
-  <option value="macro photography">Macro Photography</option>
-</select>
-<label>Aspect Ratio:</label>
-<select id="sizeSelect">
-  <option value="1:1">Square (1:1)</option>
-  <option value="4:5">Portrait (4:5)</option>
-  <option value="16:9">Landscape (16:9)</option>
-</select>
+    <p>Creative Chaos, Crafted by AI. Unlimited image generation.</p>
 
-<button id="generateBtn">Generate</button>
-<div id="imagesContainer"></div>
-<div id="promptHistory">
-  <h3>Prompt History</h3>
-  <ul id="historyList"></ul>
-  <button onclick="clearHistory()">Clear History</button>
-</div>
+    <label>Prompt:</label>
+    <textarea id="promptInput" placeholder="e.g., A futuristic city in sunset lighting"></textarea>
 
+    <label>Negative Prompt (optional):</label>
+    <textarea id="negativePromptInput" placeholder="e.g., blur, dark, low quality"></textarea>
+
+    <label>Number of Images:</label>
+    <select id="imageCount">
+      <option value="1">1</option>
+      <option value="2" selected>2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+    </select>
+
+    <label>Style:</label>
+    <select id="styleSelect">
+      <option value="">-- optional --</option>
+      <option value="anime">Anime</option>
+      <option value="photorealistic">Photorealistic</option>
+      <option value="watercolor painting">Watercolor Painting</option>
+      <option value="cyberpunk">Cyberpunk</option>
+      <option value="studio ghibli">Studio Ghibli</option>
+      <option value="hyper realistic photograph">Hyper Realistic Photograph</option>
+      <option value="macro photography">Macro Photography</option>
+    </select>
+
+    <label>Aspect Ratio:</label>
+    <select id="sizeSelect">
+      <option value="1:1">Square (1:1)</option>
+      <option value="4:5">Portrait (4:5)</option>
+      <option value="16:9">Landscape (16:9)</option>
+    </select>
+
+    <button id="generateBtn">Generate</button>
+    <div id="imagesContainer"></div>
+
+    <div id="promptHistory">
+      <h3>Prompt History</h3>
+      <ul id="historyList"></ul>
+      <button onclick="clearHistory()">Clear History</button>
+    </div>
   </div>
-  <footer>Made with ☕ by Lenny Rajan</footer>  <script>
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwsN9VjB4jvi1fRSqxZFDhrLf4ABoYnmQFJZHYrENGygxgwqZ4t6nMm7h2N-LWR3kRh3g/exec";
+  <footer>Made with ☕ by Lenny Rajan</footer>
 
+  <script>
     function toggleTheme() {
       document.body.classList.toggle('light');
     }
-
     function updateClock() {
-      document.getElementById('clock').textContent = new Date().toLocaleTimeString();
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      document.getElementById('clock').textContent = timeStr;
     }
-    setInterval(updateClock, 1000);
-    updateClock();
+    setInterval(updateClock, 1000); updateClock();
 
     const promptInput = document.getElementById('promptInput');
     const negativePromptInput = document.getElementById('negativePromptInput');
@@ -205,6 +112,16 @@
     const generateBtn = document.getElementById('generateBtn');
     const imagesContainer = document.getElementById('imagesContainer');
     const historyList = document.getElementById('historyList');
+
+    const statusMessages = [ "Brewing...", "Crafting...", "Imagining...", "Rendering...", "Composing...", "Processing...", "Dreaming up visuals...", "Picturing perfection..." ];
+
+    function getRandomMessage(prev = "") {
+      let msg;
+      do {
+        msg = statusMessages[Math.floor(Math.random() * statusMessages.length)];
+      } while (msg === prev);
+      return msg;
+    }
 
     function buildPrompt() {
       let prompt = promptInput.value.trim();
@@ -217,59 +134,146 @@
       return `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt + ', ' + size + ' aspect ratio')}?rand=${Math.random()}`;
     }
 
-    function clearImages() {
-      imagesContainer.innerHTML = '';
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => alert('Prompt copied'));
     }
 
-    async function logPrompt(prompt, negativePrompt, style) {
+    function downloadImage(url, index) {
+      fetch(url).then(res => res.blob()).then(blob => {
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `artvandalai_image_${index + 1}.png`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      });
+    }
+
+    function clearImages() { imagesContainer.innerHTML = ''; }
+
+    function showPopup(src) {
+      const popup = document.createElement('div');
+      popup.className = 'popup';
+      const img = document.createElement('img');
+      img.src = src;
+      const btn = document.createElement('button');
+      btn.textContent = '✕';
+      btn.className = 'closeBtn';
+      btn.onclick = () => popup.remove();
+      popup.append(img, btn);
+      document.body.appendChild(popup);
+    }
+
+    function loadHistory() {
+      const saved = localStorage.getItem('promptHistory');
+      if (saved) JSON.parse(saved).forEach(p => addToHistory(p));
+    }
+
+    function saveHistory() {
+      const prompts = [...historyList.children].map(li => li.textContent);
+      localStorage.setItem('promptHistory', JSON.stringify(prompts));
+    }
+
+    function addToHistory(prompt) {
+      const li = document.createElement('li');
+      li.textContent = prompt;
+      historyList.prepend(li);
+      saveHistory();
+    }
+
+    function clearHistory() {
+      historyList.innerHTML = '';
+      localStorage.removeItem('promptHistory');
+    }
+
+    async function logToGoogleSheets(prompt, negativePrompt, style) {
       try {
-        await fetch(GOOGLE_SCRIPT_URL, {
+        await fetch("https://script.google.com/macros/s/AKfycbwsN9VjB4jvi1fRSqxZFDhrLf4ABoYnmQFJZHYrENGygxgwqZ4t6nMm7h2N-LWR3kRh3g/exec", {
           method: "POST",
+          mode: "no-cors",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            prompt,
-            negativePrompt,
-            style
+            prompt: prompt,
+            negativePrompt: negativePrompt,
+            style: style
           })
         });
-      } catch (e) {
-        console.warn("Logging failed", e);
+      } catch (err) {
+        console.warn("Logging failed", err);
       }
     }
 
     async function generateImages() {
       const count = parseInt(imageCountSelect.value);
       const basePrompt = buildPrompt();
-      if (!basePrompt) return alert('Please enter a prompt');
+      const rawPrompt = promptInput.value.trim();
+      const negative = negativePromptInput.value.trim();
+      const style = styleSelect.value;
+
+      if (!rawPrompt) return alert('Please enter a prompt');
+
+      await logToGoogleSheets(rawPrompt, negative, style);
 
       clearImages();
-      const promptOnly = promptInput.value.trim();
-      const negativePrompt = negativePromptInput.value.trim();
-      const style = styleSelect.value;
-      logPrompt(promptOnly, negativePrompt, style);
+      addToHistory(basePrompt);
+      generateBtn.disabled = true;
 
+      const cardRefs = [];
       for (let i = 0; i < count; i++) {
         const card = document.createElement('div');
         card.className = 'imageCard';
-        const status = document.createElement('div');
-        status.className = 'statusText';
-        status.textContent = 'Generating...';
-        card.appendChild(status);
+        const statusText = document.createElement('div');
+        statusText.className = 'statusText';
+        const initialMsg = getRandomMessage();
+        statusText.textContent = initialMsg;
+        card.appendChild(statusText);
         imagesContainer.appendChild(card);
+        cardRefs.push({ card, statusText, prevMsg: initialMsg });
+      }
+
+      for (let i = 0; i < count; i++) {
+        const { card, statusText } = cardRefs[i];
+        let prev = cardRefs[i].prevMsg;
+        const interval = setInterval(() => {
+          const msg = getRandomMessage(prev);
+          statusText.textContent = msg;
+          prev = msg;
+        }, 1200);
 
         const uniquePrompt = `${basePrompt}, unique-${Math.random().toString(36).substring(7)}`;
+        const url = generateImageURL(uniquePrompt, sizeSelect.value);
+
         const img = new Image();
-        img.src = generateImageURL(uniquePrompt, sizeSelect.value);
+        img.alt = `Generated image ${i + 1}`;
         img.onload = () => {
+          clearInterval(interval);
           card.innerHTML = '';
           card.appendChild(img);
+          img.onclick = () => showPopup(img.src);
+          const actions = document.createElement('div');
+          actions.className = 'imageActions';
+          const dlBtn = document.createElement('button');
+          dlBtn.textContent = 'Download';
+          dlBtn.onclick = () => downloadImage(img.src, i);
+          const cpBtn = document.createElement('button');
+          cpBtn.textContent = 'Copy Prompt';
+          cpBtn.onclick = () => copyToClipboard(basePrompt);
+          actions.append(dlBtn, cpBtn);
+          card.appendChild(actions);
         };
         img.onerror = () => {
-          status.textContent = 'Failed to load image';
+          clearInterval(interval);
+          statusText.textContent = "Failed to load image 😞";
         };
+        img.src = url;
+        await new Promise(r => setTimeout(r, 350));
       }
+
+      generateBtn.disabled = false;
     }
 
+    loadHistory();
     generateBtn.addEventListener('click', generateImages);
-  </script></body>
+  </script>
+</body>
 </html>
