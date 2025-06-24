@@ -146,4 +146,57 @@
 </head>
 <body>
   <div id="clock"></div>
-  <button class="toggleTheme" onclick="toggleTheme()">🌗</
+  <button class="toggleTheme" onclick="toggleTheme()">🌗</button>
+  <div class="container">
+    <h1>Art-Vandal-AI</h1>
+    <p>Creative Chaos, Crafted by AI. Unlimited image generation.</p><label>Prompt:</label>
+<textarea id="promptInput"></textarea>
+
+<label>Negative Prompt (optional):</label>
+<textarea id="negativePromptInput"></textarea>
+
+<label>Number of Images:</label>
+<select id="imageCount">
+  <option value="1">1</option>
+  <option value="2" selected>2</option>
+  <option value="3">3</option>
+  <option value="4">4</option>
+  <option value="5">5</option>
+  <option value="6">6</option>
+</select>
+
+<label>Style:</label>
+<select id="styleSelect">
+  <option value="">-- optional --</option>
+  <option value="anime">Anime</option>
+  <option value="photorealistic">Photorealistic</option>
+  <option value="watercolor painting">Watercolor Painting</option>
+  <option value="cyberpunk">Cyberpunk</option>
+  <option value="studio ghibli">Studio Ghibli</option>
+  <option value="hyper realistic photograph">Hyper Realistic Photograph</option>
+  <option value="macro photography">Macro Photography</option>
+</select>
+
+<label>Aspect Ratio:</label>
+<select id="sizeSelect">
+  <option value="1:1">Square</option>
+  <option value="4:5">Portrait</option>
+  <option value="16:9">Landscape</option>
+</select>
+
+<button id="generateBtn">Generate</button>
+<div id="imagesContainer"></div>
+
+<div id="promptHistory">
+  <h3>Prompt History</h3>
+  <ul id="historyList"></ul>
+  <button onclick="clearHistory()">Clear History</button>
+</div>
+
+  </div>
+  <footer>Made with ☕ by Lenny Rajan</footer>
+  <script>
+    // [Insert complete script block from previous response here]
+  </script>
+</body>
+</html>
